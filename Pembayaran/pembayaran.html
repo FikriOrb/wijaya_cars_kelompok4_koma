@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Secure Checkout - Wijaya Cars</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="pembayaran.css">
+</head>
+<body>
+
+  <header class="payment-header">
+    <a href="../Beranda/index.html">
+        <img src="../models/Logo.png" alt="Wijaya Cars Logo">
+    </a>
+  </header>
+
+  <main class="container">
+
+    <div class="breadcrumbs">Shipping / <b style="color: #fff;">Payment</b> / Confirmation</div>
+
+    <div class="page-title">
+        <h1>Complete Your Order</h1>
+        <p class="subtitle">Selesaikan pembayaran Anda untuk membawa pulang mobil impian.</p>
+    </div>
+
+    <div class="layout">
+
+      <div class="left">
+
+        <div class="card">
+  <h3>Payment Method</h3>
+
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('credit', this)">Credit Card</button>
+    <button class="tab" onclick="switchTab('bank', this)">Bank Transfer</button>
+  </div>
+
+    <div id="credit-form" class="payment-content">
+        <div class="form">
+        <label>Name on Card</label>
+        <input type="text" placeholder="Nama Pemilik Kartu">
+
+        <label>Card Number</label>
+        <div class="input-icon">
+            <input type="text" placeholder="0000 0000 0000 0000">
+            <span class="icon">💳</span>
+        </div>
+
+        <div class="row">
+            <div>
+            <label>Expiry Date</label>
+            <input type="text" placeholder="MM / YY">
+            </div>
+            <div>
+            <label>CVC</label>
+            <input type="text" placeholder="123">
+            </div>
+        </div>
+        </div>
+    </div>
+
+        <div id="bank-form" class="payment-content" style="display: none;">
+            <div class="form">
+            <p style="color: #aaa; font-size: 14px; margin-bottom: 15px;">
+                Silakan transfer ke nomor Virtual Account di bawah ini. Pesanan akan diproses otomatis setelah pembayaran terverifikasi.
+            </p>
+
+            <label>Bank Destination</label>
+            <select class="bank-select">
+                <option>BCA Virtual Account</option>
+                <option>Mandiri Bill</option>
+                <option>BNI Virtual Account</option>
+                <option>BRI Virtual Account</option>
+            </select>
+
+            <label>Virtual Account Number</label>
+            <div class="input-icon">
+                <input type="text" value="8800 1234 5678 9000" readonly style="background: #111; color: #fff; border-color: #444;">
+                <span class="icon" style="cursor: pointer;" onclick="alert('Nomor disalin!')">📋</span>
+            </div>
+            
+            <p style="color: #666; font-size: 12px; margin-top: 10px;">
+                *Kode pembayaran berlaku selama 24 jam.
+            </p>
+            </div>
+        </div>
+
+    </div>
+
+        <div class="card">
+          <h3>Billing Address</h3>
+          <label class="check">
+            <input type="checkbox" checked>
+            Alamat tagihan sama dengan alamat pengiriman
+          </label>
+        </div>
+
+      </div>
+
+      <div class="right">
+
+        <div class="summary">
+
+          <h3>Order Summary</h3>
+
+          <div class="product">
+            <img id="coGambar" class="car-img" alt="Mobil">
+            <div>
+              <h4 id="coMobil">Nama Mobil</h4>
+              <p class="muted">Spesifikasi Pilihan:</p>
+              <ul class="spec-list">
+                <li id="coWarna">-</li>
+                <li id="coVelg">-</li>
+                <li id="coMesin">-</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="line">
+            <span>Car Price</span>
+            <span id="coHargaDasar">Rp 0</span>
+          </div>
+
+          <div class="line total-line">
+            <span>Total</span>
+            <span id="coTotal" class="total-price">Rp 0</span>
+          </div>
+
+          <button class="btn-pay" id="btnBayar">Confirm Payment</button>
+
+          <p class="secure-text">🔒 Pembayaran dienkripsi dan aman.</p>
+
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <footer class="footer">
+    <p>Copyright © 2025 Cars - Developed by Madya</p>
+  </footer>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("dataCheckout"));
+
+    if (data) {
+      document.getElementById("coMobil").innerText = data.mobil;
+      document.getElementById("coWarna").innerText = data.warna;
+      document.getElementById("coVelg").innerText = data.velg;
+      document.getElementById("coMesin").innerText = data.mesin;
+
+      document.getElementById("coGambar").src = "../models/" + data.gambar;
+      
+      document.getElementById("coHargaDasar").innerText = formatRupiah(data.hargaDasar);
+      document.getElementById("coTotal").innerText = formatRupiah(data.total);
+      
+      document.getElementById("btnBayar").innerText = "Pay " + formatRupiah(data.total);
+    }
+
+    function formatRupiah(angka) {
+      return "Rp " + angka.toLocaleString("id-ID");
+    }
+
+    // ===== TAMBAHAN: LOGIKA TOMBOL BAYAR =====
+    const btnBayar = document.getElementById("btnBayar");
+    
+    btnBayar.addEventListener("click", function() {
+        // 1. Ubah teks tombol jadi loading
+        btnBayar.innerText = "Processing...";
+        btnBayar.style.opacity = "0.7";
+        btnBayar.style.cursor = "not-allowed";
+
+        // 2. Simulasi loading selama 1.5 detik
+        setTimeout(function() {
+            // 3. Pindah ke halaman sukses
+            window.location.href = "../success/success.html";
+        }, 1500);
+    });
+
+        // ===== LOGIKA PINDAH TAB =====
+    function switchTab(method, element) {
+    // 1. Hapus class 'active' dari semua tombol tab
+    document.querySelectorAll('.tab').forEach(tab => {
+        tab.classList.remove('active');
+    });
+
+    // 2. Tambahkan class 'active' ke tombol yang diklik
+    element.classList.add('active');
+
+    // 3. Ambil elemen konten form
+    const creditForm = document.getElementById('credit-form');
+    const bankForm   = document.getElementById('bank-form');
+
+    // 4. Tampilkan/Sembunyikan berdasarkan pilihan
+    if (method === 'credit') {
+        creditForm.style.display = 'block';
+        bankForm.style.display = 'none';
+    } else {
+        creditForm.style.display = 'none';
+        bankForm.style.display = 'block';
+    }
+    }
+
+  </script>
+
+</body>
+</html>

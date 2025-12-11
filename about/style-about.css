@@ -1,0 +1,152 @@
+/* ================= ABOUT HERO ================= */
+.about-hero {
+    width: 100%;
+    height: 60vh; /* Tinggi lebih pendek dari Home */
+    /* Ganti gambar background di bawah sesuai keinginan */
+    background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('../models/porche.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 0; /* Reset margin */
+}
+
+.about-hero-content h1 {
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.about-hero-content p {
+    font-size: 18px;
+    color: #ddd;
+    max-width: 600px;
+    margin: 0 auto;
+    line-height: 1.6;
+}
+
+/* ================= STORY SECTION ================= */
+.story-section {
+    padding: 100px 80px;
+    background: #000;
+}
+
+.story-container {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.story-image {
+    flex: 1;
+}
+
+.story-image img {
+    width: 100%;
+    border-radius: 12px;
+    /* Efek border tipis agar mewah */
+    border: 1px solid rgba(255, 255, 255, 0.2); 
+    box-shadow: 0 10px 40px rgba(255, 255, 255, 0.1);
+}
+
+.story-text {
+    flex: 1;
+}
+
+.story-text h2 {
+    font-size: 36px;
+    margin-bottom: 25px;
+    color: #fff;
+    border-left: 4px solid #fff;
+    padding-left: 20px;
+}
+
+.story-text p {
+    color: #ccc;
+    line-height: 1.8;
+    margin-bottom: 30px;
+    text-align: justify;
+}
+
+.stats {
+    display: flex;
+    gap: 40px;
+}
+
+.stat-box h3 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.stat-box span {
+    color: #888;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ================= VISION SECTION ================= */
+.vision-section {
+    padding: 80px 80px;
+    background: #0a0a0a; /* Sedikit lebih terang dari hitam murni */
+    text-align: center;
+    margin-bottom: 60px; /* Jarak ke footer */
+}
+
+.section-title {
+    font-size: 32px;
+    margin-bottom: 60px;
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 60px;
+    height: 3px;
+    background: #fff;
+    margin: 15px auto 0;
+    border-radius: 2px;
+}
+
+.vision-cards {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.v-card {
+    background: #0d0d0d;
+    border: 1px solid #222;
+    padding: 40px 30px;
+    border-radius: 12px;
+    width: 30%;
+    min-width: 280px;
+    transition: 0.3s ease;
+}
+
+.v-card:hover {
+    transform: translateY(-10px);
+    border-color: #555;
+    background: #111;
+}
+
+.v-card h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #fff;
+}
+
+.v-card p {
+    color: #aaa;
+    line-height: 1.6;
+    font-size: 14px;
+}

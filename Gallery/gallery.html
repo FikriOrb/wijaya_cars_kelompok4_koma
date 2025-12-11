@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Wijaya Cars</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../Beranda/style.css">
+    
+    <link rel="stylesheet" href="style-gallery.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="../models/Logo.png" alt="Logo">
+        </div>
+    
+        <ul class="nav-links">
+            <li><a href="../Beranda/index.html">Home</a></li> 
+            <li><a class="active" href="gallery.html">Gallery</a></li> 
+            <li><a href="../about/about.html">About</a></li> 
+            <li><a href="../contact/contact.html">Contact us</a></li>
+        </ul>
+    
+        <a href="../Login_create/Login.html" class="login-btn">Login</a>
+    </nav>
+
+    <section class="gallery-header">
+        <h1>EXCLUSIVE COLLECTION</h1>
+        <p class="subtitle">Koleksi Mobil Mewah Pilihan Terbaik</p>
+    </section>
+
+    <div class="gallery-container">
+        <div class="grid" id="carGrid"></div>
+    </div>
+
+    <footer class="footer">
+        <p>Copyright © 2025 Cars</p>
+        <p>Developed by Madya</p>
+    </footer>
+
+    <script>
+        const cars = [
+            ["alfa_romeo_giulia.png.png.png", "Alfa Romeo Giulia", "Rp 850.000.000"],
+            ["audi_a8.png.png.png", "Audi A8", "Rp 1.750.000.000"],
+            ["bentley_bentayga.png.png.png", "Bentley Bentayga", "Rp 6.900.000.000"],
+            ["bmw_x5.png.png.png", "BMW X5", "Rp 1.450.000.000"],
+            ["cadillac_escalade.png.png.png", "Cadillac Escalade", "Rp 2.900.000.000"],
+            ["ferrari_488.png.png.png", "Ferrari 488", "Rp 10.500.000.000"],
+            ["ford_mustang.png.png.png", "Ford Mustang", "Rp 1.200.000.000"],
+            ["honda_civic_type_r.png.png.png", "Honda Civic Type R", "Rp 650.000.000"],
+            ["jaguar_e_type.png.png.png", "Jaguar E-Type", "Rp 1.400.000.000"],
+            ["lamborghini_huracan.png.png.png", "Lamborghini Huracan", "Rp 5.800.000.000"],
+            ["lexus_lc500.png.png.png", "Lexus LC500", "Rp 2.450.000.000"],
+            ["mazda_mx5.png.png.png", "Mazda MX-5", "Rp 650.000.000"],
+            ["mclaren_720s.png.png.png", "McLaren 720s", "Rp 7.200.000.000"],
+            ["mercedes_c350_avantgarde.png.png.png", "Mercedes C350", "Rp 1.950.000.000"],
+            ["porsche_cayenne.png.png.png", "Porsche Cayenne", "Rp 2.200.000.000"],
+            ["range_rover.png.png.png", "Range Rover", "Rp 2.900.000.000"],
+            ["tesla_model_s.png.png.png", "Tesla Model S", "Rp 2.450.000.000"],
+            ["toyota_tacoma.png.png.png", "Toyota Tacoma", "Rp 620.000.000"],
+            ["BMW M850i.jpg", "BMW M850i", "Rp 2.450.000.000"],
+            ["Lamborghini Gallador.jpg", "Lamborghini Gallador", "Rp 5.800.000.000"],
+            ["porche.jpg", "Porsche 911", "Rp 2.200.000.000"],
+            ["Toyota Alphard 2.5 GAT.jpg", "Toyota Alphard", "Rp 1.100.000.000"]
+        ];
+
+        const gridContainer = document.getElementById("carGrid");
+
+        const content = cars.map((car, index) => {
+            const [fileName, carName, carPrice] = car;
+            const delay = index * 0.05;
+
+            return `
+                <div class="card2" style="animation-delay:${delay}s">
+                    <div class="card2-image-box">
+                        <img src="../models/${fileName}" alt="${carName}" loading="lazy">
+                    </div>
+
+                    <div class="card2-info">
+                        <h3 class="car2-name">${carName}</h3>
+                        <div class="price">${carPrice}</div>
+                        
+                        <button class="btn-beli" onclick="beliMobil('${fileName}','${carName}','${carPrice}')">
+                            Detail Unit
+                        </button>
+                    </div>
+                </div>
+            `;
+        }).join("");
+
+        gridContainer.innerHTML = content;
+
+        function beliMobil(gambar, nama, harga) {
+            const dataMobil = { gambar, nama, harga };
+            localStorage.setItem("mobilDipilih", JSON.stringify(dataMobil));
+            window.location.href = "../modif/modif.html"; 
+        }
+    </script>
+
+</body>
+</html>

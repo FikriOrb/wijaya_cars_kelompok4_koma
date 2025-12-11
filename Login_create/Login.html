@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Wijaya Cars</title>
+    <link rel="stylesheet" href="tema_lc.css">
+</head>
+<body>
+
+    <div class="split-screen">
+        <div class="left-pane">
+            <div class="form-container">
+                <div style="margin-bottom: 20px;">
+                    <span style="font-weight: 800; font-size: 20px; letter-spacing: 2px; color: white;">WIJAYA CARS</span>
+                </div>
+
+                <div class="header-text">
+                    <h1>Welcome Back</h1>
+                    <p class="subtitle">
+                        New here? <a href="Create_account.html" class="link">Create an account</a>
+                    </p>
+                </div>
+
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="email">Email / Phone</label>
+                        <input type="text" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                            <label for="password">Password</label>
+                            <a href="#" class="forgot-pass">Forgot password?</a>
+                        </div>
+                        <input type="password" id="password" name="password" placeholder="••••••••" required>
+                    </div>
+
+                    <button type="submit" class="btn-submit">LOG IN</button>
+                </form>
+
+                <div style="margin-top: 30px; text-align: center;">
+                    <a href="../Beranda/index.html" style="color: #666; text-decoration: none; font-size: 13px;">← Back to Home</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-pane"></div>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('loginForm');
+
+        loginForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const emailInput = document.getElementById('email').value;
+            const passwordInput = document.getElementById('password').value;
+
+            // 1. Ambil data user dari LocalStorage
+            const users = JSON.parse(localStorage.getItem('usersData')) || [];
+
+            // 2. Cek kecocokan data
+            const validUser = users.find(user => 
+                (user.email === emailInput || user.phone === emailInput) && 
+                user.password === passwordInput
+            );
+
+            if (validUser) {
+                // 3. Simpan Sesi Login
+                const sessionData = {
+                    isLoggedIn: true,
+                    name: validUser.firstName + " " + validUser.lastName,
+                    email: validUser.email
+                };
+                localStorage.setItem('userSession', JSON.stringify(sessionData));
+
+                alert("Login Berhasil! Selamat datang, " + validUser.firstName);
+                window.location.href = "../Beranda/index.html";
+            } else {
+                alert("Email atau Password salah!");
+            }
+        });
+    </script>
+
+</body>
+</html>

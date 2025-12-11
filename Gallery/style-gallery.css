@@ -1,0 +1,145 @@
+/* ================= 1. ATURAN DASAR (WAJIB SAMA DENGAN BERANDA) ================= */
+html {
+    overflow-y: scroll; /* Paksa scrollbar ada agar layar tidak goyang */
+    font-size: 16px;    /* Samakan ukuran font */
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; /* PENTING: Agar tombol tidak membesar */
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background-color: #000000;
+    color: #ffffff;
+}
+
+/* ================= 2. HEADER KHUSUS GALLERY ================= */
+.gallery-header {
+    text-align: center;
+    /* Jarak atas disamakan dengan Hero Beranda (120px) */
+    padding-top: 120px; 
+    padding-bottom: 50px;
+    background: #000000;
+}
+
+.gallery-header h1 {
+    font-size: 42px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+}
+
+.gallery-header .subtitle {
+    color: #cccccc;
+    font-size: 16px;
+    font-weight: 300;
+}
+
+/* ================= 3. GRID SYSTEM ================= */
+.gallery-container {
+    padding: 0 60px 100px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+/* ================= 4. CARD DESIGN ================= */
+.card2 {
+    background-color: #0d0d0d;
+    border: 1px solid #222222;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: 0.3s ease;
+    position: relative;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+}
+
+.card2:hover {
+    transform: translateY(-5px);
+    border-color: #ffffff;
+    box-shadow: 0 8px 20px rgba(255, 255, 255, 0.25);
+}
+
+.card2-image-box {
+    width: 100%;
+    height: 180px;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 15px;
+}
+
+.card2-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.card2:hover .card2-image-box img {
+    transform: scale(1.05);
+}
+
+.card2-info {
+    text-align: left;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.car2-name {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 10px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.price {
+    font-size: 16px;
+    font-weight: 700;
+    margin-top: 5px;
+    margin-bottom: 20px;
+}
+
+.btn-beli {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+    background: transparent;
+    border: 1px solid #ffffff;
+    color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: auto;
+}
+
+.btn-beli:hover {
+    background: #ffffff;
+    color: #000000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+}
+
+/* RESPONSIF */
+@media (max-width: 768px) {
+    .gallery-container { padding: 0 20px 80px; }
+    .gallery-header h1 { font-size: 32px; }
+    .grid { grid-template-columns: 1fr; }
+}

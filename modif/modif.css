@@ -1,0 +1,257 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #000000; /* Hitam Pekat sesuai Beranda */
+  color: #ffffff;
+  min-height: 100vh;
+}
+
+/* ===== HEADER LOGO ===== */
+.modif-header {
+    width: 100%;
+    padding: 30px 0;
+    text-align: center;
+    background: #000000;
+    border-bottom: 1px solid #1a1a1a;
+}
+
+.modif-header img {
+    height: 50px;
+    width: auto;
+    transition: 0.3s;
+}
+
+.modif-header img:hover {
+    transform: scale(1.05);
+}
+
+/* ===== LAYOUT ===== */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+}
+
+.title {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title h1 {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.title p {
+  color: #888;
+  margin-top: 5px;
+  font-size: 16px;
+}
+
+/* Layout 2 Kolom (Desktop) */
+.content-wrapper {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; /* Gambar lebih besar dikit */
+    gap: 40px;
+    align-items: start;
+}
+
+/* ===== PREVIEW MOBIL ===== */
+.car-preview {
+  background: #0d0d0d; /* Abu Gelap sesuai kartu Beranda */
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 400px;
+  position: sticky;
+  top: 40px; /* Biar gambar ikut scroll */
+}
+
+.car-preview img {
+  width: 100%;
+  max-height: 350px;
+  object-fit: contain;
+  filter: drop-shadow(0 20px 30px rgba(0,0,0,0.8));
+}
+
+/* ===== OPTIONS ===== */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.box {
+  background: #0d0d0d; /* Style Kartu Beranda */
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 25px;
+  transition: 0.3s;
+}
+
+.box:hover {
+    border-color: #444;
+}
+
+.box h3 {
+  margin-bottom: 15px;
+  font-size: 16px;
+  color: #fff;
+  font-weight: 600;
+}
+
+.option-row {
+  display: flex;
+  flex-direction: column; /* Mobile first logic, tapi diatur ulang dibawah */
+  gap: 15px;
+}
+
+/* --- Color Picker --- */
+.colors {
+  display: flex;
+  gap: 15px;
+}
+
+.color {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  border: 2px solid #333;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+/* Warna Mobil */
+.color.black { background: #000; box-shadow: inset 0 0 10px #333; }
+.color.red { background: #b00; }
+.color.white { background: #eee; }
+.color.blue { background: #0044cc; }
+.color.gray { background: #777; }
+
+/* Active State untuk Warna: Ring Putih */
+.color.active-color {
+    border-color: #fff;
+    transform: scale(1.1);
+    box-shadow: 0 0 15px rgba(255,255,255,0.3);
+}
+
+/* --- Buttons (Velg & Mesin) --- */
+.wheels {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.wheel {
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  cursor: pointer;
+  background: #000;
+  color: #888;
+  transition: 0.3s;
+  flex: 1; /* Biar lebarnya rata */
+  text-align: center;
+}
+
+.wheel:hover {
+    border-color: #666;
+    color: #fff;
+}
+
+/* Active State: Putih (Monokrom) */
+.wheel.active {
+  border-color: #fff;
+  background: #fff;
+  color: #000; /* Teks jadi hitam */
+  font-weight: 600;
+  box-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
+
+/* Price Info Text */
+.price-note {
+  font-size: 14px;
+  color: #aaa;
+  font-weight: 500;
+  padding-top: 5px;
+}
+
+/* ===== FOOTER TOTAL ===== */
+.footer-box {
+  background: #0d0d0d;
+  border: 1px solid #222;
+  border-radius: 12px;
+  padding: 30px;
+  margin-top: 10px;
+}
+
+.total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #222;
+    padding-bottom: 20px;
+}
+
+.total h4 {
+  font-size: 16px;
+  color: #888;
+  font-weight: 400;
+}
+
+.total h2 {
+  font-size: 28px;
+  font-weight: 700;
+  color: #fff;
+}
+
+/* Tombol sesuai Beranda (Outline Putih) */
+.btn {
+  width: 100%;
+  padding: 15px;
+  background: transparent;
+  border: 1px solid #fff;
+  color: #fff;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.btn:hover {
+  background: #fff;
+  color: #000;
+  box-shadow: 0 5px 20px rgba(255,255,255,0.2);
+  transform: translateY(-2px);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .content-wrapper {
+    grid-template-columns: 1fr; /* Stack ke bawah di HP */
+  }
+
+  .car-preview {
+    position: static; /* Hilangkan sticky di HP */
+    height: auto;
+    min-height: 300px;
+  }
+}

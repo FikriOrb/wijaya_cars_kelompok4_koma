@@ -1,0 +1,211 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* ================= RESET & GLOBAL ================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+html {
+    /* Opsional: samakan dengan halaman lain agar tidak lompat */
+    overflow-y: scroll; 
+}
+
+body {
+    background: #000;
+    color: #fff;
+    min-height: 100vh;
+    /* JANGAN gunakan overflow: hidden, nanti tombol tidak bisa diklik di layar pendek */
+}
+
+/* ================= LAYOUT SPLIT SCREEN ================= */
+.split-screen {
+    display: flex;
+    min-height: 100vh; /* Gunakan min-height agar fleksibel */
+    width: 100%;
+}
+
+/* --- Sisi Kiri (Form) --- */
+.left-pane {
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+    background: #000;
+    flex-direction: column; /* Menjaga konten tetap vertikal */
+}
+
+/* --- Sisi Kanan (Gambar) --- */
+.right-pane {
+    width: 60%;
+    /* Pastikan path gambar benar */
+    background-image: url('../models/BMW M850i.jpg'); 
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+/* Overlay gelap di atas gambar */
+.right-pane::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, #000 0%, transparent 40%, rgba(0,0,0,0.4) 100%);
+}
+
+/* ================= FORM STYLES ================= */
+.form-container {
+    width: 100%;
+    max-width: 400px;
+    z-index: 2; /* Agar di atas elemen lain */
+}
+
+/* Header Teks */
+.header-text {
+    margin-bottom: 30px;
+}
+
+.header-text h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 5px;
+    line-height: 1.2;
+    color: #fff;
+}
+
+.subtitle {
+    color: #888;
+    font-size: 14px;
+}
+
+.link {
+    color: #fff;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255,255,255,0.3);
+    transition: 0.3s;
+}
+
+.link:hover {
+    color: #ccc;
+    border-color: #fff;
+}
+
+/* Input Fields */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.name-row {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.name-row > div {
+    width: 50%;
+}
+
+label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 12px;
+    color: #bbb;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+input {
+    width: 100%;
+    padding: 14px;
+    background: #0d0d0d; /* Sedikit lebih terang dari bg utama */
+    border: 1px solid #333;
+    color: white;
+    border-radius: 8px; /* Radius 8px konsisten dengan halaman lain */
+    font-size: 14px;
+    outline: none;
+    transition: 0.3s;
+    font-family: 'Poppins', sans-serif;
+}
+
+input:focus {
+    border-color: #fff;
+    background: #000;
+    box-shadow: 0 0 0 1px rgba(255,255,255,0.2);
+}
+
+input::placeholder {
+    color: #555;
+}
+
+/* Tombol Submit (Putih Solid) */
+.btn-submit {
+    width: 100%;
+    padding: 15px;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+    background: #f2f2f2;
+}
+
+/* Link Tambahan */
+.forgot-pass {
+    font-size: 12px;
+    color: #888;
+    text-decoration: none;
+    font-weight: 400;
+    transition: 0.3s;
+}
+
+.forgot-pass:hover {
+    color: #fff;
+    text-decoration: underline;
+}
+
+.password-hint {
+    font-size: 11px;
+    color: #666;
+    margin-top: 8px;
+    line-height: 1.4;
+}
+
+/* ================= MEDIA QUERY (RESPONSIF HP) ================= */
+@media (max-width: 900px) {
+    .split-screen {
+        flex-direction: column;
+    }
+
+    .right-pane {
+        display: none; /* Sembunyikan gambar di HP agar fokus ke form */
+    }
+
+    .left-pane {
+        width: 100%;
+        padding: 40px 20px;
+        min-height: 100vh;
+    }
+
+    .form-container {
+        max-width: 100%;
+    }
+}

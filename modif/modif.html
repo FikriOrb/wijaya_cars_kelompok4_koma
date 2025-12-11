@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Konfigurasi Mobil - Wijaya Cars</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="modif.css">
+</head>
+<body>
+
+<header class="modif-header">
+    <a href="../Beranda/index.html">
+        <img src="../models/Logo.png" alt="Wijaya Cars Logo">
+    </a>
+</header>
+
+<div class="container">
+
+  <div class="title">
+    <h1>Konfigurasi Mobil</h1>
+    <p>Sesuaikan tampilan dan performa sesuai karakter Anda.</p>
+  </div>
+
+  <div class="content-wrapper">
+      <div class="car-preview">
+        <img id="gambarMobil" alt="Mobil">
+      </div>
+
+      <div class="options">
+
+        <div class="box">
+          <h3>Warna Eksterior</h3>
+          <div class="option-row">
+            <div class="colors">
+              <div class="color black active-color" onclick="pilihWarna(0,'Hitam (Standar)', this)"></div>
+              <div class="color red" onclick="pilihWarna(5000000,'Merah + Rp 5.000.000', this)"></div>
+              <div class="color white" onclick="pilihWarna(3000000,'Putih + Rp 3.000.000', this)"></div>
+              <div class="color blue" onclick="pilihWarna(4000000,'Biru + Rp 4.000.000', this)"></div>
+              <div class="color gray" onclick="pilihWarna(2000000,'Abu-abu + Rp 2.000.000', this)"></div>
+            </div>
+            <div class="price-note" id="infoWarna">Hitam (Standar)</div>
+          </div>
+        </div>
+
+        <div class="box">
+          <h3>Ukuran Velg</h3>
+          <div class="option-row">
+            <div class="wheels">
+              <div class="wheel active" onclick="pilihVelg(0,this,'Velg 18 (Standar)')">18"</div>
+              <div class="wheel" onclick="pilihVelg(7000000,this,'Velg 19 + Rp 7.000.000')">19"</div>
+              <div class="wheel" onclick="pilihVelg(12000000,this,'Velg 20 + Rp 12.000.000')">20"</div>
+            </div>
+            <div class="price-note" id="infoVelg">Velg 18 (Standar)</div>
+          </div>
+        </div>
+
+        <div class="box">
+          <h3>Tipe Mesin</h3>
+          <div class="option-row">
+            <div class="wheels">
+              <div class="wheel active" onclick="pilihMesin(0,this,'Mesin Standar')">Standar</div>
+              <div class="wheel" onclick="pilihMesin(25000000,this,'Turbo + Rp 25.000.000')">Turbo</div>
+              <div class="wheel" onclick="pilihMesin(50000000,this,'V8 + Rp 50.000.000')">V8</div>
+            </div>
+            <div class="price-note" id="infoMesin">Mesin Standar</div>
+          </div>
+        </div>
+
+        <div class="footer-box">
+            <div class="total">
+              <h4>Estimasi Harga</h4>
+              <h2 id="totalHarga">Rp 0</h2>
+            </div>
+            <button class="btn" onclick="kePembayaran()">Lanjut Pembayaran</button>
+        </div>
+
+      </div>
+  </div>
+
+</div>
+
+<script>
+let data = JSON.parse(localStorage.getItem("mobilDipilih"));
+
+let hargaDasar = 0;
+let hargaWarna = 0;
+let hargaVelg  = 0;
+let hargaMesin = 0;
+
+if (data) {
+  document.getElementById("gambarMobil").src = "../models/" + data.gambar;
+  // Hapus "Rp" dan titik untuk kalkulasi
+  hargaDasar = Number(data.harga.replace(/[^0-9]/g, ""));
+  updateTotal();
+}
+
+// ===== PILIH WARNA =====
+function pilihWarna(harga, text, el) {
+  // Reset active class pada warna
+  document.querySelectorAll(".color").forEach(c => c.classList.remove("active-color"));
+  el.classList.add("active-color");
+
+  hargaWarna = harga;
+  document.getElementById("infoWarna").innerText = text;
+  updateTotal();
+}
+
+// ===== PILIH VELG =====
+function pilihVelg(harga, el, text) {
+  document.querySelectorAll(".box:nth-child(2) .wheel").forEach(w => w.classList.remove("active"));
+  el.classList.add("active");
+  hargaVelg = harga;
+  document.getElementById("infoVelg").innerText = text;
+  updateTotal();
+}
+
+// ===== PILIH MESIN =====
+function pilihMesin(harga, el, text) {
+  document.querySelectorAll(".box:nth-child(3) .wheel").forEach(w => w.classList.remove("active"));
+  el.classList.add("active");
+  hargaMesin = harga;
+  document.getElementById("infoMesin").innerText = text;
+  updateTotal();
+}
+
+// ===== HITUNG TOTAL =====
+function updateTotal() {
+  const total = hargaDasar + hargaWarna + hargaVelg + hargaMesin;
+  document.getElementById("totalHarga").innerText = formatRupiah(total);
+}
+
+// ===== KIRIM KE PEMBAYARAN =====
+function kePembayaran() {
+  const total = hargaDasar + hargaWarna + hargaVelg + hargaMesin;
+
+  const dataCheckout = {
+    mobil: data.nama,
+    gambar: data.gambar,
+    warna: document.getElementById("infoWarna").innerText,
+    velg: document.getElementById("infoVelg").innerText,
+    mesin: document.getElementById("infoMesin").innerText,
+    hargaDasar: hargaDasar,
+    total: total
+  };
+
+  localStorage.setItem("dataCheckout", JSON.stringify(dataCheckout));
+  window.location.href = "../Pembayaran/pembayaran.html";
+}
+
+function formatRupiah(angka) {
+  return "Rp " + angka.toLocaleString("id-ID");
+}
+</script>
+
+</body>
+</html>
