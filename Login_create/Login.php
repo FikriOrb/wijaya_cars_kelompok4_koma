@@ -18,7 +18,7 @@
                 <div class="header-text">
                     <h1>Welcome Back</h1>
                     <p class="subtitle">
-                        New here? <a href="Create_account.html" class="link">Create an account</a>
+                        New here? <a href="Create_account.php" class="link">Create an account</a>
                     </p>
                 </div>
 
@@ -40,7 +40,7 @@
                 </form>
 
                 <div style="margin-top: 30px; text-align: center;">
-                    <a href="../Beranda/index.html" style="color: #666; text-decoration: none; font-size: 13px;">← Back to Home</a>
+                    <a href="../Beranda/index.php" style="color: #666; text-decoration: none; font-size: 13px;">← Back to Home</a>
                 </div>
             </div>
         </div>
@@ -76,7 +76,7 @@
                 localStorage.setItem('userSession', JSON.stringify(sessionData));
 
                 alert("Login Berhasil! Selamat datang, " + validUser.firstName);
-                window.location.href = "../Beranda/index.html";
+                window.location.href = "../Beranda/index.php";
             } else {
                 alert("Email atau Password salah!");
             }

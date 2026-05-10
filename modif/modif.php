@@ -12,7 +12,7 @@
 <body>
 
 <header class="modif-header">
-    <a href="../Beranda/index.html">
+    <a href="../Beranda/index.php">
         <img src="../models/Logo.png" alt="Wijaya Cars Logo">
     </a>
 </header>
@@ -147,7 +147,7 @@ function kePembayaran() {
   };
 
   localStorage.setItem("dataCheckout", JSON.stringify(dataCheckout));
-  window.location.href = "../Pembayaran/pembayaran.html";
+  window.location.href = "../Pembayaran/pembayaran.php";
 }
 
 function formatRupiah(angka) {

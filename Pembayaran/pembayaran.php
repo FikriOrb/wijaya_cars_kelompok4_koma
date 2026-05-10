@@ -12,7 +12,7 @@
 <body>
 
   <header class="payment-header">
-    <a href="../Beranda/index.html">
+    <a href="../Beranda/index.php">
         <img src="../models/Logo.png" alt="Wijaya Cars Logo">
     </a>
   </header>
@@ -140,9 +140,7 @@
 
   </main>
 
-  <footer class="footer">
-    <p>Copyright © 2025 Cars - Developed by Madya</p>
-  </footer>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/footer.php'; ?>
 
   <script>
     const data = JSON.parse(localStorage.getItem("dataCheckout"));

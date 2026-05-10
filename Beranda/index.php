@@ -8,20 +8,7 @@
 </head>
 <body>
     
-    <nav class="navbar">
-        <div class="logo">
-            <img src="../models/Logo.png" alt="Logo">
-        </div>
-
-        <ul class="nav-links">
-            <li><a class="active" href="index.html">Home</a></li>
-            <li><a href="../Gallery/gallery.html" onclick="cekAkses(event)">Gallery</a></li>
-            <li><a href="../about/about.html">About</a></li>
-            <li><a href="../contact_us/contact.html">Contact us</a></li>
-        </ul>
-
-        <a href="../Login_create/Login.html" class="login-btn">Login</a>
-    </nav>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/navbar.php'; ?>
 
     <section class="hero">
         <div class="hero-content">
@@ -32,7 +19,7 @@
                 We bring you a curated collection of the world's finest automobiles, 
                 designed for those who demand excellence in every journey.
             </p>
-            <button class="discover-btn" onclick="cekAkses(event, '../Gallery/gallery.html')">DISCOVER</button>
+            <button class="discover-btn" onclick="cekAkses(event, '../Gallery/gallery.php')">DISCOVER</button>
         </div>
         <div class="hero-video-container">
             <video class="hero-video" autoplay muted loop>
@@ -155,11 +142,6 @@
 
         </section>
 
-        <footer class="footer">
-            <p>Copyright © 2025 Cars</p>
-            <p>Developed by Madya</p>
-        </footer>
-
         <script>
             // 1. Fungsi Cek Akses (Proteksi Gallery)
             function cekAkses(e, targetUrl) {
@@ -171,7 +153,7 @@
                     if(e) e.preventDefault(); // Batalkan link
                     
                     alert("Akses Ditolak! Anda harus Login untuk melihat koleksi mobil.");
-                    window.location.href = "../Login_create/Login.html"; // Lempar ke Login
+                    window.location.href = "../Login_create/Login.php"; // Lempar ke Login
                 } else {
                     // Jika SUDAH login dan ada targetUrl (untuk tombol/div)
                     if (targetUrl) {
@@ -204,6 +186,8 @@
                 }
             }
         </script>
+    
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/footer.php'; ?>
 
 </body>
 </html>

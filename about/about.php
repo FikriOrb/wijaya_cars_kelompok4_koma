@@ -9,20 +9,7 @@
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo">
-            <img src="../models/Logo.png" alt="Logo">
-        </div>
-    
-        <ul class="nav-links">
-            <li><a href="../Beranda/beranda.html">Home</a></li> 
-            <li><a href="../Gallery/gallery.html">Gallery</a></li>
-            <li><a class="active" href="#">About</a></li> 
-            <li><a href="../contact_us/contact.html">Contact us</a></li>
-        </ul>
-    
-        <a href="../Login_create/Login.html" class="login-btn">Login</a>
-    </nav>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/navbar.php'; ?>
 
     <section class="about-hero">
         <div class="about-hero-content">
@@ -75,10 +62,8 @@
             </div>
         </div>
     </section>
-    <footer class="footer">
-        <p>Copyright © 2025 Cars</p>
-        <p>Developed by Madya</p>
-    </footer>
+
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/footer.php'; ?>
 
 </body>
 </html>

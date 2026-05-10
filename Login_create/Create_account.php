@@ -18,7 +18,7 @@
                 <div class="header-text">
                     <h1>Create Account</h1>
                     <p class="subtitle">
-                        Already a member? <a href="Login.html" class="link">Log in</a>
+                        Already a member? <a href="Login.php" class="link">Log in</a>
                     </p>
                 </div>
 
@@ -94,7 +94,7 @@
 
             // 5. Redirect ke Login
             alert("Akun berhasil dibuat! Silakan Login.");
-            window.location.href = "Login.html";
+            window.location.href = "Login.php";
         });
     </script>
 

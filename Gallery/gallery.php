@@ -13,20 +13,7 @@
 </head>
 <body>
 
-    <nav class="navbar">
-        <div class="logo">
-            <img src="../models/Logo.png" alt="Logo">
-        </div>
-    
-        <ul class="nav-links">
-            <li><a href="../Beranda/index.html">Home</a></li> 
-            <li><a class="active" href="gallery.html">Gallery</a></li> 
-            <li><a href="../about/about.html">About</a></li> 
-            <li><a href="../contact/contact.html">Contact us</a></li>
-        </ul>
-    
-        <a href="../Login_create/Login.html" class="login-btn">Login</a>
-    </nav>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/navbar.php'; ?>
 
     <section class="gallery-header">
         <h1>EXCLUSIVE COLLECTION</h1>
@@ -37,10 +24,7 @@
         <div class="grid" id="carGrid"></div>
     </div>
 
-    <footer class="footer">
-        <p>Copyright © 2025 Cars</p>
-        <p>Developed by Madya</p>
-    </footer>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/footer.php'; ?>
 
     <script>
         const cars = [
@@ -97,7 +81,7 @@
         function beliMobil(gambar, nama, harga) {
             const dataMobil = { gambar, nama, harga };
             localStorage.setItem("mobilDipilih", JSON.stringify(dataMobil));
-            window.location.href = "../modif/modif.html"; 
+            window.location.href = "../modif/modif.php"; 
         }
     </script>
 
