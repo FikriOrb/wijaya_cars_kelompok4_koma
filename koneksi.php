@@ -1,6 +1,17 @@
 <?php
 declare(strict_types=1);
 
+// Load .env file if present
+$envFile = __DIR__ . '/.env';
+if (is_file($envFile)) {
+    foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+        if (str_starts_with(trim($line), '#')) continue;
+        if (str_contains($line, '=')) {
+            putenv(trim($line));
+        }
+    }
+}
+
 const DB_HOST = '127.0.0.1';
 const DB_NAME = 'wijaya_cars';
 const DB_USER = 'root';
