@@ -66,6 +66,48 @@ body {
     z-index: 2; /* Agar di atas elemen lain */
 }
 
+.glass-panel {
+    background: rgba(13, 13, 13, 0.72);
+    border: 1px solid rgba(229, 228, 226, 0.18);
+    border-radius: 8px;
+    box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+}
+
+.form-container.glass-panel {
+    padding: 32px;
+}
+
+.brand-text {
+    margin-bottom: 20px;
+    font-weight: 800;
+    font-size: 20px;
+    letter-spacing: 2px;
+    color: #fff;
+}
+
+.field-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.alert {
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: rgba(229, 228, 226, 0.12);
+    border: 1px solid rgba(229, 228, 226, 0.24);
+    color: #fff;
+    font-size: 13px;
+    margin-bottom: 18px;
+}
+
+.alert.error {
+    border-color: rgba(255, 255, 255, 0.42);
+    background: rgba(255, 255, 255, 0.08);
+}
+
 /* Header Teks */
 .header-text {
     margin-bottom: 30px;
@@ -164,8 +206,27 @@ input::placeholder {
 
 .btn-submit:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 5px 24px rgba(229, 228, 226, 0.28);
     background: #f2f2f2;
+}
+
+.btn-google {
+    display: block;
+    width: 100%;
+    margin-top: 14px;
+    padding: 14px;
+    border: 1px solid rgba(229, 228, 226, 0.35);
+    border-radius: 8px;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+.btn-google:hover {
+    border-color: #fff;
+    background: rgba(255, 255, 255, 0.08);
 }
 
 /* Link Tambahan */
@@ -189,6 +250,93 @@ input::placeholder {
     line-height: 1.4;
 }
 
+.back-home {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.back-home a {
+    color: #888;
+    text-decoration: none;
+    font-size: 13px;
+}
+
+.otp-countdown {
+    margin: 8px 0 18px;
+    font-size: 26px;
+    letter-spacing: 4px;
+    color: #e5e4e2;
+    font-weight: 700;
+    font-variant-numeric: tabular-nums;
+}
+
+.dashboard-body {
+    background: #000;
+}
+
+.dashboard-shell {
+    width: min(1180px, calc(100% - 40px));
+    margin: 130px auto 70px;
+}
+
+.dashboard-hero {
+    padding: 32px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.eyebrow {
+    color: #e5e4e2;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+.dashboard-hero h1 {
+    font-size: 34px;
+    margin: 8px 0;
+}
+
+.profile-photo {
+    width: 78px;
+    height: 78px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid rgba(255,255,255,0.28);
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 24px;
+}
+
+.dashboard-card {
+    padding: 28px;
+}
+
+.dashboard-card h2 {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.order-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(229, 228, 226, 0.12);
+}
+
+.order-row span,
+.order-row small {
+    display: block;
+    color: #aaa;
+    margin-top: 4px;
+}
+
 /* ================= MEDIA QUERY (RESPONSIF HP) ================= */
 @media (max-width: 900px) {
     .split-screen {
@@ -207,5 +355,14 @@ input::placeholder {
 
     .form-container {
         max-width: 100%;
+    }
+
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .dashboard-hero {
+        flex-direction: column;
+        align-items: flex-start;
     }
 }

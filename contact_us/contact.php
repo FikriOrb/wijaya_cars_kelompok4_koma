@@ -1,3 +1,4 @@
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/auth.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>

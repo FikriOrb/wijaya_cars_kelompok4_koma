@@ -1,159 +1,177 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/../auth.php';
+require_login();
+
+$carId = (int) ($_GET['car_id'] ?? 0);
+$stmt = get_db()->prepare('SELECT id, car_name, file_name, price, category FROM cars WHERE id = ? LIMIT 1');
+$stmt->execute([$carId]);
+$car = $stmt->fetch();
+
+if (!$car) {
+    redirect_to('/Gallery/gallery.php');
+}
+
+$colorOptions = [
+    'black' => ['label' => 'Hitam (Standar)', 'price' => 0, 'class' => 'black'],
+    'red' => ['label' => 'Merah + Rp 5.000.000', 'price' => 5000000, 'class' => 'red'],
+    'white' => ['label' => 'Putih + Rp 3.000.000', 'price' => 3000000, 'class' => 'white'],
+    'blue' => ['label' => 'Biru + Rp 4.000.000', 'price' => 4000000, 'class' => 'blue'],
+    'gray' => ['label' => 'Abu-abu + Rp 2.000.000', 'price' => 2000000, 'class' => 'gray'],
+];
+$wheelOptions = [
+    '18' => ['label' => 'Velg 18 (Standar)', 'price' => 0],
+    '19' => ['label' => 'Velg 19 + Rp 7.000.000', 'price' => 7000000],
+    '20' => ['label' => 'Velg 20 + Rp 12.000.000', 'price' => 12000000],
+];
+$engineOptions = [
+    'standard' => ['label' => 'Mesin Standar', 'price' => 0],
+    'turbo' => ['label' => 'Turbo + Rp 25.000.000', 'price' => 25000000],
+    'v8' => ['label' => 'V8 + Rp 50.000.000', 'price' => 50000000],
+];
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <title>Konfigurasi Mobil - Wijaya Cars</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
-  <link rel="stylesheet" href="modif.css">
+  <link rel="stylesheet" href="modif.css?v=20260515-3">
 </head>
 <body>
-
 <header class="modif-header">
-    <a href="../Beranda/index.php">
-        <img src="../models/Logo.png" alt="Wijaya Cars Logo">
-    </a>
+    <a href="../Gallery/gallery.php"><img src="../models/Logo.png" alt="Wijaya Cars Logo"></a>
 </header>
 
-<div class="container">
-
+<main class="container">
   <div class="title">
-    <h1>Konfigurasi Mobil</h1>
+    <p class="eyebrow"><?= e($car['category']); ?></p>
+    <h1><?= e($car['car_name']); ?></h1>
     <p>Sesuaikan tampilan dan performa sesuai karakter Anda.</p>
   </div>
 
-  <div class="content-wrapper">
-      <div class="car-preview">
-        <img id="gambarMobil" alt="Mobil">
+  <form class="content-wrapper" id="modifForm" method="post" action="../Pembayaran/pembayaran.php">
+      <input type="hidden" name="car_id" value="<?= (int) $car['id']; ?>">
+      <input type="hidden" name="prepare_checkout" value="1">
+
+      <div class="car-preview glass-panel">
+        <img src="../models/<?= e($car['file_name']); ?>" alt="<?= e($car['car_name']); ?>">
       </div>
 
       <div class="options">
-
-        <div class="box">
+        <section class="box glass-panel">
           <h3>Warna Eksterior</h3>
-          <div class="option-row">
-            <div class="colors">
-              <div class="color black active-color" onclick="pilihWarna(0,'Hitam (Standar)', this)"></div>
-              <div class="color red" onclick="pilihWarna(5000000,'Merah + Rp 5.000.000', this)"></div>
-              <div class="color white" onclick="pilihWarna(3000000,'Putih + Rp 3.000.000', this)"></div>
-              <div class="color blue" onclick="pilihWarna(4000000,'Biru + Rp 4.000.000', this)"></div>
-              <div class="color gray" onclick="pilihWarna(2000000,'Abu-abu + Rp 2.000.000', this)"></div>
-            </div>
-            <div class="price-note" id="infoWarna">Hitam (Standar)</div>
+          <div class="colors" data-option-group="color">
+            <?php foreach ($colorOptions as $key => $option): ?>
+              <label class="color <?= e($option['class']); ?> <?= $key === 'black' ? 'active-color' : ''; ?>" title="<?= e($option['label']); ?>" tabindex="0" role="button">
+                <input type="radio" name="color" value="<?= e($key); ?>" data-label="<?= e($option['label']); ?>" data-price="<?= (int) $option['price']; ?>" <?= $key === 'black' ? 'checked' : ''; ?>>
+              </label>
+            <?php endforeach; ?>
           </div>
-        </div>
+          <div class="price-note" id="infoWarna">Hitam (Standar)</div>
+        </section>
 
-        <div class="box">
+        <section class="box glass-panel">
           <h3>Ukuran Velg</h3>
-          <div class="option-row">
-            <div class="wheels">
-              <div class="wheel active" onclick="pilihVelg(0,this,'Velg 18 (Standar)')">18"</div>
-              <div class="wheel" onclick="pilihVelg(7000000,this,'Velg 19 + Rp 7.000.000')">19"</div>
-              <div class="wheel" onclick="pilihVelg(12000000,this,'Velg 20 + Rp 12.000.000')">20"</div>
-            </div>
-            <div class="price-note" id="infoVelg">Velg 18 (Standar)</div>
+          <div class="wheels" data-option-group="wheel">
+            <?php foreach ($wheelOptions as $key => $option): ?>
+              <label class="wheel <?= $key == 18 ? 'active' : ''; ?>" tabindex="0" role="button">
+                <input type="radio" name="wheel" value="<?= e((string)$key); ?>" data-label="<?= e($option['label']); ?>" data-price="<?= (int) $option['price']; ?>" <?= $key == 18 ? 'checked' : ''; ?>>
+                <?= e((string)$key); ?>&quot;
+              </label>
+            <?php endforeach; ?>
           </div>
-        </div>
+          <div class="price-note" id="infoVelg">Velg 18 (Standar)</div>
+        </section>
 
-        <div class="box">
+        <section class="box glass-panel">
           <h3>Tipe Mesin</h3>
-          <div class="option-row">
-            <div class="wheels">
-              <div class="wheel active" onclick="pilihMesin(0,this,'Mesin Standar')">Standar</div>
-              <div class="wheel" onclick="pilihMesin(25000000,this,'Turbo + Rp 25.000.000')">Turbo</div>
-              <div class="wheel" onclick="pilihMesin(50000000,this,'V8 + Rp 50.000.000')">V8</div>
-            </div>
-            <div class="price-note" id="infoMesin">Mesin Standar</div>
+          <div class="wheels" data-option-group="engine">
+            <?php foreach ($engineOptions as $key => $option): ?>
+              <label class="wheel <?= $key === 'standard' ? 'active' : ''; ?>" tabindex="0" role="button">
+                <input type="radio" name="engine" value="<?= e($key); ?>" data-label="<?= e($option['label']); ?>" data-price="<?= (int) $option['price']; ?>" <?= $key === 'standard' ? 'checked' : ''; ?>>
+                <?= e($key === 'standard' ? 'Standar' : strtoupper($key)); ?>
+              </label>
+            <?php endforeach; ?>
           </div>
-        </div>
+          <div class="price-note" id="infoMesin">Mesin Standar</div>
+        </section>
 
-        <div class="footer-box">
+        <section class="footer-box glass-panel">
             <div class="total">
               <h4>Estimasi Harga</h4>
-              <h2 id="totalHarga">Rp 0</h2>
+              <h2 id="totalHarga"><?= rupiah((int) $car['price']); ?></h2>
             </div>
-            <button class="btn" onclick="kePembayaran()">Lanjut Pembayaran</button>
-        </div>
-
+            <button class="btn btn-next" type="submit">
+              <span>Selanjutnya</span>
+              <small>Lanjut ke pembayaran</small>
+            </button>
+        </section>
       </div>
-  </div>
+  </form>
+</main>
 
+<div class="sticky-checkout">
+  <div>
+    <span>Estimasi Harga</span>
+    <strong id="stickyTotal"><?= rupiah((int) $car['price']); ?></strong>
+  </div>
+  <button class="sticky-next" id="stickyNext" type="submit" form="modifForm">Selanjutnya</button>
 </div>
 
 <script>
-let data = JSON.parse(localStorage.getItem("mobilDipilih"));
+const basePrice = <?= (int) $car['price']; ?>;
+const form = document.getElementById('modifForm');
+const totalEl = document.getElementById('totalHarga');
+const stickyTotalEl = document.getElementById('stickyTotal');
+const labels = {
+  color: document.getElementById('infoWarna'),
+  wheel: document.getElementById('infoVelg'),
+  engine: document.getElementById('infoMesin')
+};
 
-let hargaDasar = 0;
-let hargaWarna = 0;
-let hargaVelg  = 0;
-let hargaMesin = 0;
+document.querySelectorAll('[data-option-group] input[type="radio"]').forEach(input => {
+  input.addEventListener('change', () => syncOption(input));
+});
 
-if (data) {
-  document.getElementById("gambarMobil").src = "../models/" + data.gambar;
-  // Hapus "Rp" dan titik untuk kalkulasi
-  hargaDasar = Number(data.harga.replace(/[^0-9]/g, ""));
+document.querySelectorAll('[data-option-group] label').forEach(option => {
+  option.addEventListener('keydown', event => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      const input = option.querySelector('input[type="radio"]');
+      if (input) {
+        input.checked = true;
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+    }
+  });
+});
+
+function syncOption(input) {
+  const option = input ? input.closest('label') : null;
+  const group = input ? input.closest('[data-option-group]') : null;
+  if (!input || !option || !group) return;
+
+  group.querySelectorAll('label').forEach(label => label.classList.remove('active', 'active-color'));
+  option.classList.add(group.dataset.optionGroup === 'color' ? 'active-color' : 'active');
+  if (labels[group.dataset.optionGroup]) {
+    labels[group.dataset.optionGroup].textContent = input.dataset.label;
+  }
   updateTotal();
 }
 
-// ===== PILIH WARNA =====
-function pilihWarna(harga, text, el) {
-  // Reset active class pada warna
-  document.querySelectorAll(".color").forEach(c => c.classList.remove("active-color"));
-  el.classList.add("active-color");
-
-  hargaWarna = harga;
-  document.getElementById("infoWarna").innerText = text;
-  updateTotal();
-}
-
-// ===== PILIH VELG =====
-function pilihVelg(harga, el, text) {
-  document.querySelectorAll(".box:nth-child(2) .wheel").forEach(w => w.classList.remove("active"));
-  el.classList.add("active");
-  hargaVelg = harga;
-  document.getElementById("infoVelg").innerText = text;
-  updateTotal();
-}
-
-// ===== PILIH MESIN =====
-function pilihMesin(harga, el, text) {
-  document.querySelectorAll(".box:nth-child(3) .wheel").forEach(w => w.classList.remove("active"));
-  el.classList.add("active");
-  hargaMesin = harga;
-  document.getElementById("infoMesin").innerText = text;
-  updateTotal();
-}
-
-// ===== HITUNG TOTAL =====
 function updateTotal() {
-  const total = hargaDasar + hargaWarna + hargaVelg + hargaMesin;
-  document.getElementById("totalHarga").innerText = formatRupiah(total);
+  const optionTotal = [...document.querySelectorAll('input[type="radio"]:checked')]
+    .reduce((sum, input) => sum + Number(input.dataset.price || 0), 0);
+  totalEl.textContent = formatRupiah(basePrice + optionTotal);
+  stickyTotalEl.textContent = formatRupiah(basePrice + optionTotal);
 }
 
-// ===== KIRIM KE PEMBAYARAN =====
-function kePembayaran() {
-  const total = hargaDasar + hargaWarna + hargaVelg + hargaMesin;
-
-  const dataCheckout = {
-    mobil: data.nama,
-    gambar: data.gambar,
-    warna: document.getElementById("infoWarna").innerText,
-    velg: document.getElementById("infoVelg").innerText,
-    mesin: document.getElementById("infoMesin").innerText,
-    hargaDasar: hargaDasar,
-    total: total
-  };
-
-  localStorage.setItem("dataCheckout", JSON.stringify(dataCheckout));
-  window.location.href = "../Pembayaran/pembayaran.php";
-}
-
-function formatRupiah(angka) {
-  return "Rp " + angka.toLocaleString("id-ID");
+function formatRupiah(value) {
+  return 'Rp ' + value.toLocaleString('id-ID');
 }
 </script>
-
 </body>
 </html>

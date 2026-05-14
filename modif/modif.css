@@ -9,6 +9,7 @@ body {
   background-color: #000000; /* Hitam Pekat sesuai Beranda */
   color: #ffffff;
   min-height: 100vh;
+  padding-bottom: 118px;
 }
 
 /* ===== HEADER LOGO ===== */
@@ -16,8 +17,10 @@ body {
     width: 100%;
     padding: 30px 0;
     text-align: center;
-    background: #000000;
-    border-bottom: 1px solid #1a1a1a;
+    background: rgba(0,0,0,0.72);
+    border-bottom: 1px solid rgba(229, 228, 226, 0.16);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
 }
 
 .modif-header img {
@@ -46,7 +49,23 @@ body {
 .title h1 {
   font-size: 36px;
   font-weight: 700;
-  letter-spacing: 1px;
+  letter-spacing: 3px;
+}
+
+.eyebrow {
+  color: #e5e4e2;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 12px;
+  margin-bottom: 8px;
+}
+
+.glass-panel {
+  background: rgba(13, 13, 13, 0.72);
+  border: 1px solid rgba(229, 228, 226, 0.16);
+  border-radius: 8px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
 }
 
 .title p {
@@ -129,6 +148,17 @@ body {
   border: 2px solid #333;
   cursor: pointer;
   transition: 0.2s;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+  display: inline-block;
+}
+
+.color input,
+.wheel input {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
 }
 
 /* Warna Mobil */
@@ -166,6 +196,17 @@ body {
   transition: 0.3s;
   flex: 1; /* Biar lebarnya rata */
   text-align: center;
+  position: relative;
+  z-index: 2;
+  user-select: none;
+}
+
+.color:focus-visible,
+.wheel:focus-visible,
+.btn:focus-visible,
+.sticky-next:focus-visible {
+  outline: 3px solid rgba(229, 228, 226, 0.45);
+  outline-offset: 3px;
 }
 
 .wheel:hover {
@@ -223,24 +264,108 @@ body {
 /* Tombol sesuai Beranda (Outline Putih) */
 .btn {
   width: 100%;
-  padding: 15px;
-  background: transparent;
+  padding: 16px;
+  background: #e5e4e2;
   border: 1px solid #fff;
-  color: #fff;
+  color: #000;
   border-radius: 8px;
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 800;
   cursor: pointer;
   transition: 0.3s;
   text-transform: uppercase;
-  letter-spacing: 1px;
+  letter-spacing: 1.4px;
 }
 
 .btn:hover {
   background: #fff;
   color: #000;
-  box-shadow: 0 5px 20px rgba(255,255,255,0.2);
+  box-shadow: 0 5px 24px rgba(229,228,226,0.28);
   transform: translateY(-2px);
+}
+
+.btn-next {
+  min-height: 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  box-shadow: 0 12px 32px rgba(229,228,226,0.18);
+}
+
+.btn-next small {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.4px;
+  text-transform: none;
+  color: rgba(0,0,0,0.62);
+}
+
+.sticky-checkout {
+  position: fixed;
+  left: 50%;
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  z-index: 10000;
+  width: min(1120px, calc(100% - 32px));
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 14px 16px;
+  background: rgba(13, 13, 13, 0.86);
+  border: 1px solid rgba(229, 228, 226, 0.24);
+  border-radius: 8px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.62), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+.sticky-checkout span {
+  display: block;
+  color: #888;
+  font-size: 12px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.sticky-checkout strong {
+  display: block;
+  margin-top: 2px;
+  font-size: 20px;
+  color: #fff;
+  white-space: nowrap;
+}
+
+.sticky-next {
+  flex: 0 0 auto;
+  min-width: 190px;
+  min-height: 48px;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  background: #e5e4e2;
+  color: #000;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: 0.25s ease;
+}
+
+.sticky-next:hover {
+  background: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(229,228,226,0.24);
+}
+
+.box,
+.car-preview,
+.footer-box {
+  background: rgba(13, 13, 13, 0.72);
+  border-color: rgba(229, 228, 226, 0.16);
+  border-radius: 8px;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -253,5 +378,38 @@ body {
     position: static; /* Hilangkan sticky di HP */
     height: auto;
     min-height: 300px;
+  }
+
+  .sticky-checkout {
+    bottom: calc(12px + env(safe-area-inset-bottom));
+    width: calc(100% - 24px);
+  }
+
+  .sticky-checkout strong {
+    font-size: 16px;
+  }
+
+  .sticky-next {
+    min-width: 138px;
+    min-height: 46px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding-bottom: 156px;
+  }
+
+  .sticky-checkout {
+    align-items: stretch;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+  }
+
+  .sticky-next {
+    width: 100%;
+    min-width: 0;
   }
 }

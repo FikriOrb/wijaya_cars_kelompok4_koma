@@ -1,5 +1,44 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/../auth.php';
+
+$error = '';
+$identifier = '';
+$_SESSION['google_oauth_state'] = bin2hex(random_bytes(16));
+$googleClientId = getenv('GOOGLE_CLIENT_ID') ?: 'YOUR_GOOGLE_CLIENT_ID';
+$googleParams = http_build_query([
+    'client_id' => $googleClientId,
+    'redirect_uri' => 'http://localhost/wijaya_v2/Login_create/google-callback.php',
+    'response_type' => 'code',
+    'scope' => 'openid email profile',
+    'state' => $_SESSION['google_oauth_state'],
+    'access_type' => 'offline',
+    'prompt' => 'select_account',
+]);
+$googleUrl = 'https://accounts.google.com/o/oauth2/v2/auth?' . $googleParams;
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $identifier = trim((string) ($_POST['identifier'] ?? ''));
+    $password = (string) ($_POST['password'] ?? '');
+
+    $stmt = get_db()->prepare('SELECT * FROM users WHERE email = ? OR phone = ? LIMIT 1');
+    $stmt->execute([$identifier, $identifier]);
+    $user = $stmt->fetch();
+
+    if (!$user || empty($user['password']) || !password_verify($password, $user['password'])) {
+        $error = 'Email/phone atau password salah.';
+    } elseif ((int) $user['is_verified'] !== 1) {
+        $_SESSION['pending_verification_email'] = $user['email'];
+        redirect_to('/Login_create/verify-otp.php');
+    } else {
+        login_user((int) $user['id']);
+        redirect_to('/Beranda/index.php');
+    }
+}
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,81 +46,45 @@
     <link rel="stylesheet" href="tema_lc.css">
 </head>
 <body>
-
     <div class="split-screen">
         <div class="left-pane">
-            <div class="form-container">
-                <div style="margin-bottom: 20px;">
-                    <span style="font-weight: 800; font-size: 20px; letter-spacing: 2px; color: white;">WIJAYA CARS</span>
-                </div>
+            <div class="form-container glass-panel">
+                <div class="brand-text">WIJAYA CARS</div>
 
                 <div class="header-text">
                     <h1>Welcome Back</h1>
-                    <p class="subtitle">
-                        New here? <a href="Create_account.php" class="link">Create an account</a>
-                    </p>
+                    <p class="subtitle">New here? <a href="Create_account.php" class="link">Create an account</a></p>
                 </div>
 
-                <form id="loginForm">
+                <?php if ($error): ?>
+                    <div class="alert error"><?= e($error); ?></div>
+                <?php endif; ?>
+
+                <form method="post" autocomplete="on">
                     <div class="form-group">
-                        <label for="email">Email / Phone</label>
-                        <input type="text" id="email" name="email" placeholder="Enter your email" required>
+                        <label for="identifier">Email / Phone</label>
+                        <input type="text" id="identifier" name="identifier" value="<?= e($identifier); ?>" placeholder="Enter your email or phone" required>
                     </div>
 
                     <div class="form-group">
-                        <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div class="field-header">
                             <label for="password">Password</label>
-                            <a href="#" class="forgot-pass">Forgot password?</a>
+                            <a href="forgot-password.php" class="forgot-pass">Forgot password?</a>
                         </div>
-                        <input type="password" id="password" name="password" placeholder="••••••••" required>
+                        <input type="password" id="password" name="password" placeholder="Password" required>
                     </div>
 
-                    <button type="submit" class="btn-submit">LOG IN</button>
+                    <button type="submit" class="btn-submit">Log In</button>
+                    <a href="<?= e($googleUrl); ?>" class="btn-google">Continue with Google</a>
                 </form>
 
-                <div style="margin-top: 30px; text-align: center;">
-                    <a href="../Beranda/index.php" style="color: #666; text-decoration: none; font-size: 13px;">← Back to Home</a>
+                <div class="back-home">
+                    <a href="../Beranda/index.php">Back to Home</a>
                 </div>
             </div>
         </div>
 
         <div class="right-pane"></div>
     </div>
-
-    <script>
-        const loginForm = document.getElementById('loginForm');
-
-        loginForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-
-            const emailInput = document.getElementById('email').value;
-            const passwordInput = document.getElementById('password').value;
-
-            // 1. Ambil data user dari LocalStorage
-            const users = JSON.parse(localStorage.getItem('usersData')) || [];
-
-            // 2. Cek kecocokan data
-            const validUser = users.find(user => 
-                (user.email === emailInput || user.phone === emailInput) && 
-                user.password === passwordInput
-            );
-
-            if (validUser) {
-                // 3. Simpan Sesi Login
-                const sessionData = {
-                    isLoggedIn: true,
-                    name: validUser.firstName + " " + validUser.lastName,
-                    email: validUser.email
-                };
-                localStorage.setItem('userSession', JSON.stringify(sessionData));
-
-                alert("Login Berhasil! Selamat datang, " + validUser.firstName);
-                window.location.href = "../Beranda/index.php";
-            } else {
-                alert("Email atau Password salah!");
-            }
-        });
-    </script>
-
 </body>
 </html>

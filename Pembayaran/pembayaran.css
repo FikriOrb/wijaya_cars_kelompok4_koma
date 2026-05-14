@@ -16,8 +16,10 @@ body {
   width: 100%;
   padding: 30px 0;
   text-align: center;
-  background: #000000;
-  border-bottom: 1px solid #1a1a1a;
+  background: rgba(0,0,0,0.72);
+  border-bottom: 1px solid rgba(229, 228, 226, 0.16);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
 }
 
 .payment-header img {
@@ -51,6 +53,14 @@ h1 {
   font-size: 32px;
   font-weight: 700;
   margin-bottom: 8px;
+}
+
+.glass-panel {
+  background: rgba(13, 13, 13, 0.72);
+  border: 1px solid rgba(229, 228, 226, 0.16);
+  border-radius: 8px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
 }
 
 .subtitle {
@@ -176,7 +186,9 @@ h1 {
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 18px;
+    font-size: 11px;
+    letter-spacing: 1px;
+    color: #e5e4e2;
 }
 
 .check {
@@ -279,8 +291,22 @@ h1 {
 .btn-pay:hover {
   background: #ffffff;
   color: #000000;
-  box-shadow: 0 5px 20px rgba(255,255,255,0.3);
+  box-shadow: 0 5px 24px rgba(229,228,226,0.3);
   transform: translateY(-2px);
+}
+
+.btn-pay.is-loading {
+  background: linear-gradient(90deg, #fff 0%, #d8d8d8 45%, #fff 90%);
+  background-size: 220% 100%;
+  color: #000;
+  animation: shimmer 1s infinite linear;
+  cursor: wait;
+}
+
+.muted-copy {
+  color: #aaa;
+  font-size: 14px;
+  margin-bottom: 15px;
 }
 
 .secure-text {
@@ -386,4 +412,21 @@ h1 {
     0% { opacity: 0; width: 0; height: 0; }
     50% { opacity: 1; width: 0; height: 45px; }
     100% { opacity: 1; width: 25px; height: 45px; }
+}
+
+.btn-home.secondary {
+    margin-left: 12px;
+    background: transparent;
+    color: #fff;
+}
+
+@keyframes shimmer {
+    to { background-position: -220% 0; }
+}
+
+.card,
+.summary {
+  background: rgba(13, 13, 13, 0.72);
+  border-color: rgba(229, 228, 226, 0.16);
+  border-radius: 8px;
 }

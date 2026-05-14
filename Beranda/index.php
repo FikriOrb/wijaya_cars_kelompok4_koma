@@ -1,3 +1,4 @@
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/auth.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -19,7 +20,7 @@
                 We bring you a curated collection of the world's finest automobiles, 
                 designed for those who demand excellence in every journey.
             </p>
-            <button class="discover-btn" onclick="cekAkses(event, '../Gallery/gallery.php')">DISCOVER</button>
+            <a class="discover-btn" href="../Gallery/gallery.php">DISCOVER</a>
         </div>
         <div class="hero-video-container">
             <video class="hero-video" autoplay muted loop>
@@ -35,28 +36,28 @@
                 <h2>TODAYS SPECIALS</h2>
 
                 <div class="filters">
-                    <a href="#" class="view-all" onclick="cekAkses(event, '../Gallery/gallery.html')">View All Cars</a>
+                    <a href="../Gallery/gallery.php" class="view-all">View All Cars</a>
                     <button>SVU</button>
                     <button>Luxury</button>
                 </div>
             </div>
 
             <div class="card-container">
-                <a href="#" class="card" onclick="cekAkses(event, '../Gallery/gallery.html')">
+                <a href="../Gallery/gallery.php" class="card">
                     <img src="../models/porche.jpg" alt="car 1">
                     <h3>Porche 911</h3>
                     <div class="price">Rp 2.200.000.000</div>
                     <div class="stars">★★★★★</div>
                 </a>
 
-                <a href="#" class="card" onclick="cekAkses(event, '../Gallery/gallery.html')">
+                <a href="../Gallery/gallery.php" class="card">
                     <img src="../models/Lamborghini Gallador.jpg" alt="car 2">
                     <h3>Lamborghini Gallador</h3>
                     <div class="price">Rp 5.800.000.000</div>
                     <div class="stars">★★★★★</div>
                 </a>
 
-                <a href="#" class="card" onclick="cekAkses(event, '../Gallery/gallery.html')">
+                <a href="../Gallery/gallery.php" class="card">
                     <img src="../models/Toyota Alphard 2.5 GAT.jpg" alt="car 3">
                     <h3>Toyota Alphard 2.5 GAT</h3>
                     <div class="price">Rp 1.100.000.000</div>
@@ -142,51 +143,6 @@
 
         </section>
 
-        <script>
-            // 1. Fungsi Cek Akses (Proteksi Gallery)
-            function cekAkses(e, targetUrl) {
-                // Ambil data sesi
-                const session = JSON.parse(localStorage.getItem('userSession'));
-
-                // Jika TIDAK ada sesi login
-                if (!session || session.isLoggedIn !== true) {
-                    if(e) e.preventDefault(); // Batalkan link
-                    
-                    alert("Akses Ditolak! Anda harus Login untuk melihat koleksi mobil.");
-                    window.location.href = "../Login_create/Login.php"; // Lempar ke Login
-                } else {
-                    // Jika SUDAH login dan ada targetUrl (untuk tombol/div)
-                    if (targetUrl) {
-                        window.location.href = targetUrl;
-                    }
-                    // Jika elemennya <a> href akan jalan otomatis
-                }
-            }
-
-            // 2. Cek Status Login saat halaman dimuat
-            window.onload = function() {
-                const session = JSON.parse(localStorage.getItem('userSession'));
-                const loginBtn = document.querySelector('.login-btn');
-
-                if (session && session.isLoggedIn) {
-                    // Ubah tombol Login menjadi Logout
-                    loginBtn.innerText = "Logout";
-                    loginBtn.style.backgroundColor = "#fff"; 
-                    loginBtn.style.color = "#000";
-                    loginBtn.href = "#";
-                    
-                    // Tambahkan fungsi Logout
-                    loginBtn.addEventListener('click', function(e) {
-                        e.preventDefault();
-                        if(confirm("Halo " + session.name + ", apakah Anda yakin ingin keluar?")) {
-                            localStorage.removeItem('userSession');
-                            window.location.reload(); // Refresh halaman agar tombol balik jadi Login
-                        }
-                    });
-                }
-            }
-        </script>
-    
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/footer.php'; ?>
 
 </body>

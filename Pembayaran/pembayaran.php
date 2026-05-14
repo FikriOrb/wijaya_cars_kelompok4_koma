@@ -1,25 +1,104 @@
+<?php
+declare(strict_types=1);
+
+require_once __DIR__ . '/../auth.php';
+$user = require_login();
+
+$colorOptions = [
+    'black' => ['label' => 'Hitam (Standar)', 'price' => 0],
+    'red' => ['label' => 'Merah + Rp 5.000.000', 'price' => 5000000],
+    'white' => ['label' => 'Putih + Rp 3.000.000', 'price' => 3000000],
+    'blue' => ['label' => 'Biru + Rp 4.000.000', 'price' => 4000000],
+    'gray' => ['label' => 'Abu-abu + Rp 2.000.000', 'price' => 2000000],
+];
+$wheelOptions = [
+    '18' => ['label' => 'Velg 18 (Standar)', 'price' => 0],
+    '19' => ['label' => 'Velg 19 + Rp 7.000.000', 'price' => 7000000],
+    '20' => ['label' => 'Velg 20 + Rp 12.000.000', 'price' => 12000000],
+];
+$engineOptions = [
+    'standard' => ['label' => 'Mesin Standar', 'price' => 0],
+    'turbo' => ['label' => 'Turbo + Rp 25.000.000', 'price' => 25000000],
+    'v8' => ['label' => 'V8 + Rp 50.000.000', 'price' => 50000000],
+];
+
+$pdo = get_db();
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prepare_checkout'])) {
+    $carId = (int) ($_POST['car_id'] ?? 0);
+    $colorKey = (string) ($_POST['color'] ?? 'black');
+    $wheelKey = (string) ($_POST['wheel'] ?? '18');
+    $engineKey = (string) ($_POST['engine'] ?? 'standard');
+
+    if (!isset($colorOptions[$colorKey], $wheelOptions[$wheelKey], $engineOptions[$engineKey])) {
+        redirect_to('/Gallery/gallery.php');
+    }
+
+    $stmt = $pdo->prepare('SELECT id, car_name, file_name, price FROM cars WHERE id = ? LIMIT 1');
+    $stmt->execute([$carId]);
+    $car = $stmt->fetch();
+
+    if (!$car) {
+        redirect_to('/Gallery/gallery.php');
+    }
+
+    $_SESSION['checkout'] = [
+        'car_id' => (int) $car['id'],
+        'mobil' => $car['car_name'],
+        'gambar' => $car['file_name'],
+        'warna' => $colorOptions[$colorKey]['label'],
+        'velg' => $wheelOptions[$wheelKey]['label'],
+        'mesin' => $engineOptions[$engineKey]['label'],
+        'harga_dasar' => (int) $car['price'],
+        'total' => (int) $car['price'] + $colorOptions[$colorKey]['price'] + $wheelOptions[$wheelKey]['price'] + $engineOptions[$engineKey]['price'],
+    ];
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_order'])) {
+    $checkout = $_SESSION['checkout'] ?? null;
+    if (!$checkout) {
+        redirect_to('/Gallery/gallery.php');
+    }
+
+    $stmt = $pdo->prepare('
+        INSERT INTO orders (user_email, mobil, warna, velg, mesin, total_harga, status)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+    ');
+    $stmt->execute([
+        $user['email'],
+        $checkout['mobil'],
+        $checkout['warna'],
+        $checkout['velg'],
+        $checkout['mesin'],
+        (int) $checkout['total'],
+        'Menunggu Verifikasi',
+    ]);
+    $orderId = (int) $pdo->lastInsertId();
+    unset($_SESSION['checkout']);
+    redirect_to('/success/success.php?order_id=' . $orderId);
+}
+
+$checkout = $_SESSION['checkout'] ?? null;
+if (!$checkout) {
+    redirect_to('/Gallery/gallery.php');
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <title>Secure Checkout - Wijaya Cars</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  
   <link rel="stylesheet" href="pembayaran.css">
 </head>
 <body>
-
   <header class="payment-header">
-    <a href="../Beranda/index.php">
-        <img src="../models/Logo.png" alt="Wijaya Cars Logo">
-    </a>
+    <a href="../Gallery/gallery.php"><img src="../models/Logo.png" alt="Wijaya Cars Logo"></a>
   </header>
 
   <main class="container">
-
-    <div class="breadcrumbs">Shipping / <b style="color: #fff;">Payment</b> / Confirmation</div>
+    <div class="breadcrumbs">Shipping / <b>Payment</b> / Confirmation</div>
 
     <div class="page-title">
         <h1>Complete Your Order</h1>
@@ -27,183 +106,109 @@
     </div>
 
     <div class="layout">
-
       <div class="left">
+        <div class="card glass-panel">
+          <h3>Payment Method</h3>
+          <div class="tabs">
+            <button type="button" class="tab active" onclick="switchTab('credit', this)">Credit Card</button>
+            <button type="button" class="tab" onclick="switchTab('bank', this)">Bank Transfer</button>
+          </div>
 
-        <div class="card">
-  <h3>Payment Method</h3>
-
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('credit', this)">Credit Card</button>
-    <button class="tab" onclick="switchTab('bank', this)">Bank Transfer</button>
-  </div>
-
-    <div id="credit-form" class="payment-content">
-        <div class="form">
-        <label>Name on Card</label>
-        <input type="text" placeholder="Nama Pemilik Kartu">
-
-        <label>Card Number</label>
-        <div class="input-icon">
-            <input type="text" placeholder="0000 0000 0000 0000">
-            <span class="icon">💳</span>
-        </div>
-
-        <div class="row">
-            <div>
-            <label>Expiry Date</label>
-            <input type="text" placeholder="MM / YY">
-            </div>
-            <div>
-            <label>CVC</label>
-            <input type="text" placeholder="123">
-            </div>
-        </div>
-        </div>
-    </div>
-
-        <div id="bank-form" class="payment-content" style="display: none;">
+          <div id="credit-form" class="payment-content">
             <div class="form">
-            <p style="color: #aaa; font-size: 14px; margin-bottom: 15px;">
-                Silakan transfer ke nomor Virtual Account di bawah ini. Pesanan akan diproses otomatis setelah pembayaran terverifikasi.
-            </p>
+              <label>Name on Card</label>
+              <input type="text" placeholder="Nama Pemilik Kartu">
+              <label>Card Number</label>
+              <div class="input-icon">
+                <input type="text" placeholder="0000 0000 0000 0000">
+                <span class="icon">CARD</span>
+              </div>
+              <div class="row">
+                <div>
+                  <label>Expiry Date</label>
+                  <input type="text" placeholder="MM / YY">
+                </div>
+                <div>
+                  <label>CVC</label>
+                  <input type="text" placeholder="123">
+                </div>
+              </div>
+            </div>
+          </div>
 
-            <label>Bank Destination</label>
-            <select class="bank-select">
+          <div id="bank-form" class="payment-content" style="display: none;">
+            <div class="form">
+              <p class="muted-copy">Silakan transfer ke nomor Virtual Account. Pesanan akan diproses setelah pembayaran terverifikasi.</p>
+              <label>Bank Destination</label>
+              <select class="bank-select">
                 <option>BCA Virtual Account</option>
                 <option>Mandiri Bill</option>
                 <option>BNI Virtual Account</option>
                 <option>BRI Virtual Account</option>
-            </select>
-
-            <label>Virtual Account Number</label>
-            <div class="input-icon">
-                <input type="text" value="8800 1234 5678 9000" readonly style="background: #111; color: #fff; border-color: #444;">
-                <span class="icon" style="cursor: pointer;" onclick="alert('Nomor disalin!')">📋</span>
+              </select>
+              <label>Virtual Account Number</label>
+              <div class="input-icon">
+                <input type="text" value="8800 1234 5678 9000" readonly>
+                <span class="icon">COPY</span>
+              </div>
             </div>
-            
-            <p style="color: #666; font-size: 12px; margin-top: 10px;">
-                *Kode pembayaran berlaku selama 24 jam.
-            </p>
-            </div>
+          </div>
         </div>
 
-    </div>
-
-        <div class="card">
+        <div class="card glass-panel">
           <h3>Billing Address</h3>
           <label class="check">
             <input type="checkbox" checked>
             Alamat tagihan sama dengan alamat pengiriman
           </label>
         </div>
-
       </div>
 
-      <div class="right">
-
-        <div class="summary">
-
+      <aside class="right">
+        <div class="summary glass-panel">
           <h3>Order Summary</h3>
-
           <div class="product">
-            <img id="coGambar" class="car-img" alt="Mobil">
+            <img src="../models/<?= e($checkout['gambar']); ?>" class="car-img" alt="<?= e($checkout['mobil']); ?>">
             <div>
-              <h4 id="coMobil">Nama Mobil</h4>
+              <h4><?= e($checkout['mobil']); ?></h4>
               <p class="muted">Spesifikasi Pilihan:</p>
               <ul class="spec-list">
-                <li id="coWarna">-</li>
-                <li id="coVelg">-</li>
-                <li id="coMesin">-</li>
+                <li><?= e($checkout['warna']); ?></li>
+                <li><?= e($checkout['velg']); ?></li>
+                <li><?= e($checkout['mesin']); ?></li>
               </ul>
             </div>
           </div>
 
-          <div class="line">
-            <span>Car Price</span>
-            <span id="coHargaDasar">Rp 0</span>
-          </div>
+          <div class="line"><span>Car Price</span><span><?= rupiah((int) $checkout['harga_dasar']); ?></span></div>
+          <div class="line total-line"><span>Total</span><span class="total-price"><?= rupiah((int) $checkout['total']); ?></span></div>
 
-          <div class="line total-line">
-            <span>Total</span>
-            <span id="coTotal" class="total-price">Rp 0</span>
-          </div>
-
-          <button class="btn-pay" id="btnBayar">Confirm Payment</button>
-
-          <p class="secure-text">🔒 Pembayaran dienkripsi dan aman.</p>
-
+          <form method="post" id="paymentForm">
+            <input type="hidden" name="confirm_order" value="1">
+            <button class="btn-pay" id="btnBayar" type="submit">Pay <?= rupiah((int) $checkout['total']); ?></button>
+          </form>
+          <p class="secure-text">Pembayaran dienkripsi dan aman.</p>
         </div>
-
-      </div>
+      </aside>
     </div>
-
   </main>
 
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/footer.php'; ?>
 
   <script>
-    const data = JSON.parse(localStorage.getItem("dataCheckout"));
-
-    if (data) {
-      document.getElementById("coMobil").innerText = data.mobil;
-      document.getElementById("coWarna").innerText = data.warna;
-      document.getElementById("coVelg").innerText = data.velg;
-      document.getElementById("coMesin").innerText = data.mesin;
-
-      document.getElementById("coGambar").src = "../models/" + data.gambar;
-      
-      document.getElementById("coHargaDasar").innerText = formatRupiah(data.hargaDasar);
-      document.getElementById("coTotal").innerText = formatRupiah(data.total);
-      
-      document.getElementById("btnBayar").innerText = "Pay " + formatRupiah(data.total);
-    }
-
-    function formatRupiah(angka) {
-      return "Rp " + angka.toLocaleString("id-ID");
-    }
-
-    // ===== TAMBAHAN: LOGIKA TOMBOL BAYAR =====
-    const btnBayar = document.getElementById("btnBayar");
-    
-    btnBayar.addEventListener("click", function() {
-        // 1. Ubah teks tombol jadi loading
-        btnBayar.innerText = "Processing...";
-        btnBayar.style.opacity = "0.7";
-        btnBayar.style.cursor = "not-allowed";
-
-        // 2. Simulasi loading selama 1.5 detik
-        setTimeout(function() {
-            // 3. Pindah ke halaman sukses
-            window.location.href = "../success/success.html";
-        }, 1500);
+    document.getElementById('paymentForm').addEventListener('submit', function() {
+      const button = document.getElementById('btnBayar');
+      button.textContent = 'Processing...';
+      button.disabled = true;
+      button.classList.add('is-loading');
     });
 
-        // ===== LOGIKA PINDAH TAB =====
     function switchTab(method, element) {
-    // 1. Hapus class 'active' dari semua tombol tab
-    document.querySelectorAll('.tab').forEach(tab => {
-        tab.classList.remove('active');
-    });
-
-    // 2. Tambahkan class 'active' ke tombol yang diklik
-    element.classList.add('active');
-
-    // 3. Ambil elemen konten form
-    const creditForm = document.getElementById('credit-form');
-    const bankForm   = document.getElementById('bank-form');
-
-    // 4. Tampilkan/Sembunyikan berdasarkan pilihan
-    if (method === 'credit') {
-        creditForm.style.display = 'block';
-        bankForm.style.display = 'none';
-    } else {
-        creditForm.style.display = 'none';
-        bankForm.style.display = 'block';
+      document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+      element.classList.add('active');
+      document.getElementById('credit-form').style.display = method === 'credit' ? 'block' : 'none';
+      document.getElementById('bank-form').style.display = method === 'bank' ? 'block' : 'none';
     }
-    }
-
   </script>
-
 </body>
 </html>
