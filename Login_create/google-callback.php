@@ -14,11 +14,14 @@ if ($code === '' || $state === '' || !hash_equals((string) ($_SESSION['google_oa
 $googleClientId     = getenv('GOOGLE_CLIENT_ID') ?: 'YOUR_GOOGLE_CLIENT_ID';
 $googleClientSecret = getenv('GOOGLE_CLIENT_SECRET') ?: 'YOUR_GOOGLE_CLIENT_SECRET';
 
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+$redirectUri = $protocol . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/Login_create/google-callback.php';
+
 $tokenPayload = http_build_query([
     'code' => $code,
     'client_id' => $googleClientId,
     'client_secret' => $googleClientSecret,
-    'redirect_uri' => 'http://localhost/wijaya_v2/Login_create/google-callback.php',
+    'redirect_uri' => $redirectUri,
     'grant_type' => 'authorization_code',
 ]);
 

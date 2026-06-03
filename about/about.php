@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/auth.php'; ?>
+<?php require_once __DIR__ . '/../auth.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -10,7 +10,7 @@
 </head>
 <body>
 
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/navbar.php'; ?>
+    <?php include __DIR__ . '/../navbar.php'; ?>
 
     <section class="about-hero">
         <div class="about-hero-content">
@@ -64,7 +64,7 @@
         </div>
     </section>
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>
 
 </body>
 </html>

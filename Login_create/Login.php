@@ -7,9 +7,11 @@ $error = '';
 $identifier = '';
 $_SESSION['google_oauth_state'] = bin2hex(random_bytes(16));
 $googleClientId = getenv('GOOGLE_CLIENT_ID') ?: 'YOUR_GOOGLE_CLIENT_ID';
+$protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
+$redirectUri = $protocol . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/Login_create/google-callback.php';
 $googleParams = http_build_query([
     'client_id' => $googleClientId,
-    'redirect_uri' => 'http://localhost/wijaya_v2/Login_create/google-callback.php',
+    'redirect_uri' => $redirectUri,
     'response_type' => 'code',
     'scope' => 'openid email profile',
     'state' => $_SESSION['google_oauth_state'],

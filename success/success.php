@@ -42,6 +42,6 @@ if (!$order) {
         </div>
     </main>
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>
 </body>
 </html>

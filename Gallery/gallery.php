@@ -15,7 +15,7 @@ require_login();
     <link rel="stylesheet" href="style-gallery.css?v=20260514-2">
 </head>
 <body>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/navbar.php'; ?>
+    <?php include __DIR__ . '/../navbar.php'; ?>
 
     <section class="gallery-header">
         <h1>Exclusive Collection</h1>
@@ -54,7 +54,7 @@ require_login();
         </div>
     </main>
 
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/footer.php'; ?>
+    <?php include __DIR__ . '/../footer.php'; ?>
 
     <script>
         const grid = document.getElementById('carGrid');

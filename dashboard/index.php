@@ -34,7 +34,7 @@ $orders = $ordersStmt->fetchAll();
     <link rel="stylesheet" href="../Login_create/tema_lc.css">
 </head>
 <body class="dashboard-body">
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/navbar.php'; ?>
+<?php include __DIR__ . '/../navbar.php'; ?>
 
 <main class="dashboard-shell">
     <section class="dashboard-hero glass-panel">
@@ -82,6 +82,6 @@ $orders = $ordersStmt->fetchAll();
     </section>
 </main>
 
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/footer.php'; ?>
+<?php include __DIR__ . '/../footer.php'; ?>
 </body>
 </html>

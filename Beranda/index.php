@@ -1,4 +1,4 @@
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/auth.php'; ?>
+<?php require_once __DIR__ . '/../auth.php'; ?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -9,7 +9,7 @@
 </head>
 <body>
     
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/navbar.php'; ?>
+    <?php include __DIR__ . '/../navbar.php'; ?>
 
     <section class="hero">
         <div class="hero-content">
@@ -24,7 +24,7 @@
         </div>
         <div class="hero-video-container">
             <video class="hero-video" autoplay muted loop>
-                <source src="../models/Trailer mobil.mp4" type="video/mp4">
+                <source src="https://files.catbox.moe/a1cgp7.mp4" type="video/mp4">
             </video>
         </div>
     </section>
@@ -143,7 +143,7 @@
 
         </section>
 
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '/wijaya_v2/footer.php'; ?>
+    <?php include __DIR__ . '/../footer.php'; ?>
 
 </body>
 </html>
