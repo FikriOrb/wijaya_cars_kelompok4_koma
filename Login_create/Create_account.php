@@ -47,7 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['pending_verification_email'] = $values['email'];
             $sent = send_otp_email($values['email'], $values['first_name'], $code);
             if (!$sent) {
-                $_SESSION['dev_otp_notice'] = 'Mailer belum dikonfigurasi. Kode OTP lokal: ' . $code;
+                $err = $_SESSION['mailer_error'] ?? 'Tidak diketahui';
+                $_SESSION['dev_otp_notice'] = 'Gagal kirim email: ' . $err . '. OTP lokal: ' . $code;
             }
             redirect_to('/Login_create/verify-otp.php');
         } catch (PDOException $e) {

@@ -52,14 +52,19 @@ function send_otp_email(string $to, string $name, string $code, string $purpose 
             $mail->send();
             return true;
         } catch (Throwable $e) {
-            error_log('Wijaya Cars SMTP error: ' . $e->getMessage());
+            $errorMsg = 'SMTP Error: ' . $e->getMessage();
+            error_log($errorMsg);
+            $_SESSION['mailer_error'] = $errorMsg;
             return false;
         }
     }
 
-    error_log('Wijaya Cars SMTP error: PHPMailer is not installed or autoload failed.');
+    $errorMsg = 'PHPMailer tidak ditemukan. Pastikan folder vendor sudah di-upload.';
+    error_log($errorMsg);
+    $_SESSION['mailer_error'] = $errorMsg;
 
     if (SMTP_USERNAME === '') {
+        $_SESSION['mailer_error'] = 'SMTP Username kosong. Cek file .env';
         return false;
     }
 
