@@ -18,7 +18,8 @@ if ($user && can_send_otp($user['otp_last_sent'])) {
     $update = get_db()->prepare('UPDATE users SET verification_code = ?, code_expiry = ?, otp_last_sent = NOW() WHERE id = ?');
     $update->execute([$code, date('Y-m-d H:i:s', time() + 300), (int) $user['id']]);
     if (!send_otp_email($email, (string) $user['first_name'], $code)) {
-        $_SESSION['dev_otp_notice'] = 'Mailer belum dikonfigurasi. Kode OTP lokal: ' . $code;
+        $err = $_SESSION['mailer_error'] ?? 'Sistem sedang sibuk.';
+        $_SESSION['dev_otp_notice'] = 'Gagal kirim email: ' . $err;
     }
 } else {
     $_SESSION['dev_otp_notice'] = 'Tunggu 60 detik sebelum meminta OTP baru.';

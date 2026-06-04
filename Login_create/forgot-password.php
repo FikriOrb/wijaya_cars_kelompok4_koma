@@ -19,7 +19,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $update->execute([$code, date('Y-m-d H:i:s', time() + 300), (int) $user['id']]);
         $_SESSION['reset_email'] = $email;
         if (!send_otp_email($email, (string) $user['first_name'], $code, 'reset password')) {
-            $_SESSION['dev_otp_notice'] = 'Mailer belum dikonfigurasi. Kode reset lokal: ' . $code;
+            $err = $_SESSION['mailer_error'] ?? 'Sistem sedang sibuk.';
+            $_SESSION['dev_otp_notice'] = 'Gagal kirim email: ' . $err;
         }
         redirect_to('/Login_create/reset-password.php');
     }
