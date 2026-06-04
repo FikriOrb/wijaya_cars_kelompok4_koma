@@ -1,23 +1,39 @@
 <?php
 declare(strict_types=1);
 
-// Load .env file if present
-$envFile = __DIR__ . '/.env';
-if (is_file($envFile)) {
-    foreach (file($envFile, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
-        if (str_starts_with(trim($line), '#')) continue;
-        if (str_contains($line, '=')) {
-            putenv(trim($line));
+$env_path = __DIR__ . '/.env';
+if (file_exists($env_path)) {
+    $lines = file($env_path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        if (strpos(trim($line), '#') === 0) continue;
+        $parts = explode('=', $line, 2);
+        if (count($parts) === 2) {
+            $_ENV[trim($parts[0])] = trim($parts[1]);
         }
     }
 }
 
-define('DB_HOST', getenv('DB_HOST') ?: '127.0.0.1');
-define('DB_NAME', getenv('DB_NAME') ?: 'wijaya_cars');
-define('DB_USER', getenv('DB_USER') ?: 'root');
-define('DB_PASS', getenv('DB_PASS') ?: '');
 $isLocalhost = in_array($_SERVER['HTTP_HOST'] ?? '', ['localhost', '127.0.0.1', '::1']);
-define('BASE_URL', $isLocalhost ? '/wijaya_v2' : '');
+
+if ($isLocalhost) {
+    // Config untuk XAMPP Lokal
+    define('DB_HOST', '127.0.0.1');
+    define('DB_NAME', 'wijaya_cars');
+    define('DB_USER', 'root');
+    define('DB_PASS', '');
+    define('BASE_URL', '/wijaya_v2');
+} else {
+    // Config 100% Akurat (Bypass .env) untuk InfinityFree
+    define('DB_HOST', 'sql309.infinityfree.com');
+    define('DB_NAME', 'if0_41954602_wijaya');
+    define('DB_USER', 'if0_41954602');
+    define('DB_PASS', 'WoWw4DSiKqX');
+    define('BASE_URL', '');
+}
+
+// Google OAuth Config
+define('GOOGLE_CLIENT_ID', $_ENV['GOOGLE_CLIENT_ID'] ?? 'YOUR_GOOGLE_CLIENT_ID');
+define('GOOGLE_CLIENT_SECRET', $_ENV['GOOGLE_CLIENT_SECRET'] ?? 'YOUR_GOOGLE_CLIENT_SECRET');
 
 function get_db(): PDO
 {

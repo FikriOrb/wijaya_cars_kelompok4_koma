@@ -10,9 +10,8 @@ if ($code === '' || $state === '' || !hash_equals((string) ($_SESSION['google_oa
     redirect_to('/Login_create/Login.php');
 }
 
-// Set GOOGLE_CLIENT_ID and GOOGLE_CLIENT_SECRET in your environment or .env file
-$googleClientId     = getenv('GOOGLE_CLIENT_ID') ?: 'YOUR_GOOGLE_CLIENT_ID';
-$googleClientSecret = getenv('GOOGLE_CLIENT_SECRET') ?: 'YOUR_GOOGLE_CLIENT_SECRET';
+$googleClientId     = defined('GOOGLE_CLIENT_ID') ? GOOGLE_CLIENT_ID : 'YOUR_GOOGLE_CLIENT_ID';
+$googleClientSecret = defined('GOOGLE_CLIENT_SECRET') ? GOOGLE_CLIENT_SECRET : 'YOUR_GOOGLE_CLIENT_SECRET';
 
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
 $redirectUri = $protocol . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/Login_create/google-callback.php';
@@ -73,4 +72,4 @@ if ($existing) {
     login_user((int) $pdo->lastInsertId());
 }
 
-redirect_to('/dashboard/index.php');
+redirect_to('/Beranda/index.php');

@@ -54,7 +54,9 @@ function logout_user(): void
 
 function redirect_to(string $path): void
 {
-    header('Location: ' . BASE_URL . $path);
+    // Hindari double slash (//) yang dianggap browser sebagai URL beda domain (protocol-relative)
+    $url = rtrim(BASE_URL, '/') . '/' . ltrim($path, '/');
+    header('Location: ' . $url);
     exit;
 }
 

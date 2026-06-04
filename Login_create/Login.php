@@ -6,7 +6,7 @@ require_once __DIR__ . '/../auth.php';
 $error = '';
 $identifier = '';
 $_SESSION['google_oauth_state'] = bin2hex(random_bytes(16));
-$googleClientId = getenv('GOOGLE_CLIENT_ID') ?: 'YOUR_GOOGLE_CLIENT_ID';
+$googleClientId = defined('GOOGLE_CLIENT_ID') ? GOOGLE_CLIENT_ID : 'YOUR_GOOGLE_CLIENT_ID';
 $protocol = isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? 'https' : 'http';
 $redirectUri = $protocol . '://' . $_SERVER['HTTP_HOST'] . BASE_URL . '/Login_create/google-callback.php';
 $googleParams = http_build_query([
