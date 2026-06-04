@@ -59,14 +59,9 @@ function send_otp_email(string $to, string $name, string $code, string $purpose 
         }
     }
 
-    $errorMsg = 'PHPMailer tidak ditemukan. Pastikan folder vendor sudah di-upload.';
+    $errorMsg = 'PHPMailer tidak ditemukan. Pastikan folder vendor sudah di-upload dan diekstrak.';
     error_log($errorMsg);
     $_SESSION['mailer_error'] = $errorMsg;
 
-    if (SMTP_USERNAME === '') {
-        $_SESSION['mailer_error'] = 'SMTP Username kosong. Cek file .env';
-        return false;
-    }
-
-    return @mail($to, $subject, $body, 'From: ' . SMTP_FROM);
+    return false;
 }
