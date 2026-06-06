@@ -1,4 +1,34 @@
-<?php require_once __DIR__ . '/../auth.php'; ?>
+<?php 
+require_once __DIR__ . '/../auth.php'; 
+
+// Bypass fetch API dengan langsung mengambil data di PHP
+$db = get_db();
+try {
+    $db->exec("CREATE TABLE IF NOT EXISTS cars (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        car_name VARCHAR(255) NOT NULL,
+        file_name VARCHAR(255) NOT NULL,
+        price BIGINT NOT NULL,
+        category VARCHAR(50) NOT NULL
+    )");
+    if ($db->query("SELECT COUNT(*) FROM cars")->fetchColumn() == 0) {
+        $db->exec("INSERT INTO cars (car_name, file_name, price, category) VALUES 
+            ('Porsche 911', 'porche.jpg', 2200000000, 'Sport'),
+            ('Lamborghini Gallador', 'Lamborghini Gallador.jpg', 5800000000, 'Luxury'),
+            ('Toyota Alphard 2.5 GAT', 'Toyota Alphard 2.5 GAT.jpg', 1100000000, 'Luxury'),
+            ('BMW M850i', 'BMW M850i.jpg', 3200000000, 'Luxury'),
+            ('Mobil Sport', 'Mobil_Sport.jpg', 1500000000, 'Sport')
+        ");
+    }
+} catch (Throwable $e) {}
+
+$stmt = $db->query("SELECT id, car_name, file_name, price, category FROM cars ORDER BY car_name ASC");
+$all_cars = [];
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+    $row['price_label'] = rupiah((int)$row['price']);
+    $all_cars[] = $row;
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -247,60 +277,43 @@
             }
 
             function fetchCars(category) {
-                // Remove animation classes and show shimmer loading
-                track.classList.remove('animate-30s', 'animate-20s');
-                track.innerHTML = `
-                    <div class="shimmer-card"></div>
-                    <div class="shimmer-card"></div>
-                    <div class="shimmer-card"></div>
-                    <div class="shimmer-card"></div>
-                    <div class="shimmer-card"></div>
-                `;
- 
-                const url = category === 'All' ? '../api/cars.php' : `../api/cars.php?category=${encodeURIComponent(category)}`;
- 
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data && data.cars && data.cars.length > 0) {
-                            const cardsHtml = data.cars.map(car => {
-                                const badgeClass = car.category.toLowerCase();
-                                return `
-                                    <a href="../Gallery/gallery.php" class="card">
-                                        <img src="../models/${escapeHtml(car.file_name)}" alt="${escapeHtml(car.car_name)}">
-                                        <span class="badge ${badgeClass}">${escapeHtml(car.category)}</span>
-                                        <h3 class="car-name">${escapeHtml(car.car_name)}</h3>
-                                        <div class="price">${escapeHtml(car.price_label)}</div>
-                                    </a>
-                                `;
-                            }).join('');
- 
-                            // Repeat track content if number of cars is small (1 or 2) to prevent gaps
-                            const repeatCount = data.cars.length <= 2 ? 4 : 1;
-                            let baseHtml = '';
-                            for (let i = 0; i < repeatCount; i++) {
-                                baseHtml += cardsHtml;
-                            }
- 
-                            // Duplicate for infinite seamless scroll
-                            track.innerHTML = baseHtml + baseHtml;
- 
-                            // Force reflow to reset CSS animation
-                            track.offsetHeight;
- 
-                            // Add appropriate animation duration class
-                            const animClass = data.cars.length >= 6 ? 'animate-30s' : 'animate-20s';
-                            track.classList.add(animClass);
-                        } else {
-                            track.innerHTML = '<div class="empty-state">Tidak ada mobil dalam kategori ini.</div>';
-                            track.classList.remove('animate-30s', 'animate-20s');
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching cars:', error);
-                        track.innerHTML = '<div class="empty-state" style="color: #ff6b6b;">Gagal memuat data mobil. Silakan coba lagi.</div>';
-                        track.classList.remove('animate-30s', 'animate-20s');
-                    });
+                // Filter array secara lokal (Bypass fetch API untuk mencegah blokir InfinityFree)
+                const ALL_CARS = <?= json_encode($all_cars); ?>;
+                let data = ALL_CARS;
+                if (category !== 'All') {
+                    data = ALL_CARS.filter(car => car.category === category);
+                }
+
+                if (data && data.length > 0) {
+                    const cardsHtml = data.map(car => {
+                        const badgeClass = car.category.toLowerCase();
+                        return `
+                            <a href="../Gallery/gallery.php" class="card">
+                                <img src="../models/${escapeHtml(car.file_name)}" alt="${escapeHtml(car.car_name)}">
+                                <span class="badge ${badgeClass}">${escapeHtml(car.category)}</span>
+                                <h3 class="car-name">${escapeHtml(car.car_name)}</h3>
+                                <div class="price">${escapeHtml(car.price_label)}</div>
+                            </a>
+                        `;
+                    }).join('');
+
+                    const repeatCount = data.length <= 2 ? 4 : 1;
+                    let baseHtml = '';
+                    for (let i = 0; i < repeatCount; i++) {
+                        baseHtml += cardsHtml;
+                    }
+
+                    track.innerHTML = baseHtml + baseHtml;
+
+                    track.classList.remove('animate-30s', 'animate-20s');
+                    void track.offsetHeight;
+
+                    const animClass = data.length >= 6 ? 'animate-30s' : 'animate-20s';
+                    track.classList.add(animClass);
+                } else {
+                    track.innerHTML = '<div class="empty-state">Tidak ada mobil dalam kategori ini.</div>';
+                    track.classList.remove('animate-30s', 'animate-20s');
+                }
             }
  
             // Setup Filter Button Click Listeners
