@@ -280,8 +280,8 @@ body {
 .filter-panel {
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    gap: 8px;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 .filter-label {
@@ -536,9 +536,11 @@ body {
 }
 
 .gallery-tools-premium .filter {
-    min-height: 46px;
+    min-height: 68px;
     border-color: rgba(229, 228, 226, 0.24);
     background: rgba(255,255,255,0.045);
+    font-size: 14px;
+    letter-spacing: 1px;
 }
 
 .gallery-tools-premium .filter.active,
@@ -583,7 +585,7 @@ body {
 @media (min-width: 980px) {
     .gallery-tools-premium {
         grid-template-columns: 1.15fr 0.85fr;
-        align-items: end;
+        align-items: start;
     }
 }
 
