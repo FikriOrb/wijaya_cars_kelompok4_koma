@@ -23,11 +23,11 @@ if ($isLocalhost) {
     define('DB_PASS', '');
     define('BASE_URL', '/wijaya_v2');
 } else {
-    // Config 100% Akurat (Bypass .env) untuk InfinityFree
-    define('DB_HOST', 'sql309.infinityfree.com');
-    define('DB_NAME', 'if0_41954602_wijaya');
-    define('DB_USER', 'if0_41954602');
-    define('DB_PASS', 'WoWw4DSiKqX');
+    // Config 100% Akurat untuk Server Baru InfinityFree (sql200)
+    define('DB_HOST', 'sql200.infinityfree.com');
+    define('DB_NAME', 'if0_42112247_wijaya');
+    define('DB_USER', 'if0_42112247');
+    define('DB_PASS', 'jaNWWikwV8V3gTG');
     define('BASE_URL', '');
 }
 
