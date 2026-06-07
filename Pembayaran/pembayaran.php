@@ -117,20 +117,20 @@ if (!$checkout) {
           <div id="credit-form" class="payment-content">
             <div class="form">
               <label>Name on Card</label>
-              <input type="text" placeholder="Nama Pemilik Kartu">
+              <input type="text" id="cc-name" placeholder="Nama Pemilik Kartu">
               <label>Card Number</label>
               <div class="input-icon">
-                <input type="text" placeholder="0000 0000 0000 0000">
+                <input type="text" id="cc-num" placeholder="0000 0000 0000 0000" maxlength="19">
                 <span class="icon">CARD</span>
               </div>
               <div class="row">
                 <div>
                   <label>Expiry Date</label>
-                  <input type="text" placeholder="MM / YY">
+                  <input type="text" id="cc-exp" placeholder="MM / YY" maxlength="5">
                 </div>
                 <div>
                   <label>CVC</label>
-                  <input type="text" placeholder="123">
+                  <input type="text" id="cc-cvc" placeholder="123" maxlength="3">
                 </div>
               </div>
             </div>
@@ -196,7 +196,28 @@ if (!$checkout) {
 <?php include __DIR__ . '/../footer.php'; ?>
 
   <script>
-    document.getElementById('paymentForm').addEventListener('submit', function() {
+    document.getElementById('paymentForm').addEventListener('submit', function(e) {
+      const isCreditActive = document.getElementById('credit-form').style.display !== 'none';
+      
+      if (isCreditActive) {
+        const name = document.getElementById('cc-name').value.trim();
+        const number = document.getElementById('cc-num').value.trim();
+        const exp = document.getElementById('cc-exp').value.trim();
+        const cvc = document.getElementById('cc-cvc').value.trim();
+        
+        if (!name || !number || !exp || !cvc) {
+          e.preventDefault();
+          alert('💳 Peringatan Keamanan: Mohon isi semua data Kartu Kredit Anda terlebih dahulu!');
+          return;
+        }
+        
+        if (number.replace(/\s/g, '').length < 16) {
+          e.preventDefault();
+          alert('💳 Peringatan: Nomor kartu kredit tidak valid! (Harus 16 digit)');
+          return;
+        }
+      }
+
       const button = document.getElementById('btnBayar');
       button.textContent = 'Processing...';
       button.disabled = true;
