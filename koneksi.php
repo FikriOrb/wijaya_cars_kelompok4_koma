@@ -128,14 +128,20 @@ function ensure_schema(PDO $pdo): void
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
     ");
 
-    try {
-        $pdo->exec("ALTER TABLE orders ADD COLUMN bukti_pembayaran VARCHAR(255) NULL");
-        $pdo->exec("ALTER TABLE users ADD COLUMN alamat TEXT NULL");
-        $pdo->exec("ALTER TABLE users ADD COLUMN koordinat VARCHAR(100) NULL");
-        $pdo->exec("ALTER TABLE orders ADD COLUMN alamat_pengiriman TEXT NULL");
-        $pdo->exec("ALTER TABLE orders ADD COLUMN koordinat_pengiriman VARCHAR(100) NULL");
-    } catch (PDOException $e) {
-        // Abaikan jika kolom sudah ada
+    $alterQueries = [
+        "ALTER TABLE orders ADD COLUMN bukti_pembayaran VARCHAR(255) NULL",
+        "ALTER TABLE users ADD COLUMN alamat TEXT NULL",
+        "ALTER TABLE users ADD COLUMN koordinat VARCHAR(100) NULL",
+        "ALTER TABLE orders ADD COLUMN alamat_pengiriman TEXT NULL",
+        "ALTER TABLE orders ADD COLUMN koordinat_pengiriman VARCHAR(100) NULL"
+    ];
+
+    foreach ($alterQueries as $query) {
+        try {
+            $pdo->exec($query);
+        } catch (PDOException $e) {
+            // Abaikan jika kolom sudah ada
+        }
     }
 
     $count = (int) $pdo->query('SELECT COUNT(*) FROM cars')->fetchColumn();
