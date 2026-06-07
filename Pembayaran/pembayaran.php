@@ -42,15 +42,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['prepare_checkout'])) 
         redirect_to('/Gallery/gallery.php');
     }
 
+    $basePrice = (int) $car['price'];
+    $colorPrice = $colorOptions[$colorKey]['price'];
+    $wheelPrice = $wheelOptions[$wheelKey]['price'];
+    $enginePrice = $engineOptions[$engineKey]['price'];
+    $subtotal = $basePrice + $colorPrice + $wheelPrice + $enginePrice;
+    
+    // Pajak Barang Mewah 11% & Admin Fee
+    $pajak = (int) ($subtotal * 0.11);
+    $adminFee = 5000000; // Rp 5.000.000
+    $grandTotal = $subtotal + $pajak + $adminFee;
+
     $_SESSION['checkout'] = [
         'car_id' => (int) $car['id'],
         'mobil' => $car['car_name'],
         'gambar' => $car['file_name'],
         'warna' => $colorOptions[$colorKey]['label'],
+        'harga_warna' => $colorPrice,
         'velg' => $wheelOptions[$wheelKey]['label'],
+        'harga_velg' => $wheelPrice,
         'mesin' => $engineOptions[$engineKey]['label'],
-        'harga_dasar' => (int) $car['price'],
-        'total' => (int) $car['price'] + $colorOptions[$colorKey]['price'] + $wheelOptions[$wheelKey]['price'] + $engineOptions[$engineKey]['price'],
+        'harga_mesin' => $enginePrice,
+        'harga_dasar' => $basePrice,
+        'subtotal' => $subtotal,
+        'pajak' => $pajak,
+        'admin' => $adminFee,
+        'total' => $grandTotal,
     ];
 }
 
@@ -205,17 +222,34 @@ if (!$checkout) {
             <img src="../models/<?= e($checkout['gambar']); ?>" class="car-img" alt="<?= e($checkout['mobil']); ?>">
             <div>
               <h4><?= e($checkout['mobil']); ?></h4>
-              <p class="muted">Spesifikasi Pilihan:</p>
-              <ul class="spec-list">
-                <li><?= e($checkout['warna']); ?></li>
-                <li><?= e($checkout['velg']); ?></li>
-                <li><?= e($checkout['mesin']); ?></li>
+              <p class="muted" style="margin-bottom: 5px; font-size: 0.85em;">Rincian Tambahan:</p>
+              <ul class="spec-list" style="margin-bottom: 15px; font-size: 0.85em;">
+                <li style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                    <span>🎨 <?= e($checkout['warna']); ?></span>
+                    <span>+ <?= rupiah((int) ($checkout['harga_warna'] ?? 0)); ?></span>
+                </li>
+                <li style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                    <span>🛞 <?= e($checkout['velg']); ?></span>
+                    <span>+ <?= rupiah((int) ($checkout['harga_velg'] ?? 0)); ?></span>
+                </li>
+                <li style="display: flex; justify-content: space-between; margin-bottom: 3px;">
+                    <span>⚙️ <?= e($checkout['mesin']); ?></span>
+                    <span>+ <?= rupiah((int) ($checkout['harga_mesin'] ?? 0)); ?></span>
+                </li>
               </ul>
             </div>
           </div>
 
-          <div class="line"><span>Car Price</span><span><?= rupiah((int) $checkout['harga_dasar']); ?></span></div>
-          <div class="line total-line"><span>Total</span><span class="total-price"><?= rupiah((int) $checkout['total']); ?></span></div>
+          <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; margin-bottom: 15px;">
+              <div class="line" style="margin-bottom: 8px;"><span>Harga Dasar Mobil</span><span><?= rupiah((int) $checkout['harga_dasar']); ?></span></div>
+              <div class="line" style="color: #aaa; font-size: 0.9em; margin-bottom: 8px;"><span>Subtotal (Mobil + Upgrade)</span><span><?= rupiah((int) ($checkout['subtotal'] ?? $checkout['harga_dasar'])); ?></span></div>
+              <div class="line" style="color: #aaa; font-size: 0.9em; margin-bottom: 8px;"><span>Pajak PPN (11%)</span><span><?= rupiah((int) ($checkout['pajak'] ?? 0)); ?></span></div>
+              <div class="line" style="color: #aaa; font-size: 0.9em; margin-bottom: 8px;"><span>Biaya Penanganan / Admin</span><span><?= rupiah((int) ($checkout['admin'] ?? 0)); ?></span></div>
+          </div>
+          
+          <div class="line total-line" style="border-top: 1px dashed rgba(255,255,255,0.3); padding-top: 15px;">
+              <span>Grand Total</span><span class="total-price" style="color: #2ecc71; font-size: 1.3em;"><?= rupiah((int) $checkout['total']); ?></span>
+          </div>
 
             <input type="hidden" name="confirm_order" value="1">
             <?php if (empty($user['ktp_image'])): ?>
