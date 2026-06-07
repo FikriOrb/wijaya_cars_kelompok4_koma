@@ -70,7 +70,10 @@ $orders = $ordersStmt->fetchAll();
             <textarea id="alamat" name="alamat" rows="3" style="width:100%; padding:10px; background:rgba(255,255,255,0.05); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:8px;" placeholder="Ketik alamat pengiriman lengkap Anda..."><?= e($user['alamat'] ?? ''); ?></textarea>
 
             <label>Titik Lokasi Maps</label>
-            <div id="map" style="height: 300px; width: 100%; border-radius: 8px; margin-bottom: 15px; border:1px solid rgba(255,255,255,0.1);"></div>
+            <button type="button" id="toggleMapBtn" style="width:100%; padding:10px; background:rgba(33, 150, 243, 0.2); color:#2196F3; border:1px solid rgba(33, 150, 243, 0.5); border-radius:8px; margin-bottom:15px; cursor:pointer; font-weight:600;">📍 Buka Peta untuk Pilih Lokasi</button>
+            <div id="mapContainer" style="display: none; margin-bottom: 15px;">
+                <div id="map" style="height: 300px; width: 100%; border-radius: 8px; border:1px solid rgba(255,255,255,0.1);"></div>
+            </div>
             <input type="hidden" id="koordinat" name="koordinat" value="<?= e($user['koordinat'] ?? ''); ?>">
             
             <button type="submit" class="btn-submit">Save Profile & Address</button>
@@ -170,8 +173,19 @@ $orders = $ordersStmt->fetchAll();
             }
         });
 
-        // Perbaiki map rendering jika tersembunyi
-        setTimeout(function() { map.invalidateSize(); }, 500);
+        // Logika Buka/Tutup Peta
+        document.getElementById('toggleMapBtn').addEventListener('click', function() {
+            var container = document.getElementById('mapContainer');
+            if (container.style.display === 'none') {
+                container.style.display = 'block';
+                this.innerHTML = '❌ Tutup Peta';
+                // Wajib dipanggil setelah div peta ditampilkan agar peta merender ulang
+                setTimeout(function() { map.invalidateSize(); }, 300);
+            } else {
+                container.style.display = 'none';
+                this.innerHTML = '📍 Buka Peta untuk Pilih Lokasi';
+            }
+        });
     });
 </script>
 </body>
