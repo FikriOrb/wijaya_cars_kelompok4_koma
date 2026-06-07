@@ -14,9 +14,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $alamat = trim((string) ($_POST['alamat'] ?? ''));
     $koordinat = trim((string) ($_POST['koordinat'] ?? ''));
 
+    $ktpName = $user['ktp_image'] ?? null;
+    if (isset($_FILES['ktp_upload']) && $_FILES['ktp_upload']['error'] === UPLOAD_ERR_OK) {
+        $tmpName = $_FILES['ktp_upload']['tmp_name'];
+        $ext = pathinfo($_FILES['ktp_upload']['name'], PATHINFO_EXTENSION);
+        $ktpName = 'ktp_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+        move_uploaded_file($tmpName, __DIR__ . '/../uploads/' . $ktpName);
+    }
+
     if ($firstName !== '' && $lastName !== '') {
-        $stmt = $pdo->prepare('UPDATE users SET first_name = ?, last_name = ?, phone = ?, alamat = ?, koordinat = ? WHERE id = ?');
-        $stmt->execute([$firstName, $lastName, $phone, $alamat, $koordinat, (int) $user['id']]);
+        $stmt = $pdo->prepare('UPDATE users SET first_name = ?, last_name = ?, phone = ?, alamat = ?, koordinat = ?, ktp_image = ? WHERE id = ?');
+        $stmt->execute([$firstName, $lastName, $phone, $alamat, $koordinat, $ktpName, (int) $user['id']]);
         $message = 'Profil berhasil diperbarui.';
         $user = current_user();
     }
@@ -53,9 +61,25 @@ $orders = $ordersStmt->fetchAll();
     </section>
 
     <section class="dashboard-grid">
-        <form class="glass-panel dashboard-card" method="post">
-            <h2>Profile & Shipping Address</h2>
+        <form class="glass-panel dashboard-card" method="post" enctype="multipart/form-data">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h2>Profile & Identity</h2>
+                <?php if (!empty($user['ktp_image'])): ?>
+                    <span style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; padding: 5px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold;">✅ KYC Verified</span>
+                <?php else: ?>
+                    <span style="background: rgba(231, 76, 60, 0.2); color: #e74c3c; padding: 5px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold;">❌ Unverified</span>
+                <?php endif; ?>
+            </div>
             <?php if ($message): ?><div class="alert"><?= e($message); ?></div><?php endif; ?>
+
+            <label style="margin-top: 15px;">Dokumen Identitas (KTP) - Wajib untuk Transaksi</label>
+            <?php if (!empty($user['ktp_image'])): ?>
+                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(46, 204, 113, 0.3);">
+                    <p style="color: #2ecc71; font-size: 0.9em; margin: 0;">✓ KTP sudah diunggah. Akun Anda telah diverifikasi.</p>
+                </div>
+            <?php else: ?>
+                <input type="file" id="ktp_upload" name="ktp_upload" accept="image/*" style="padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; width: 100%; margin-bottom: 15px;" required>
+            <?php endif; ?>
             
             <label for="first_name">First Name</label>
             <input type="text" id="first_name" name="first_name" value="<?= e($user['first_name']); ?>" required>

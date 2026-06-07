@@ -218,7 +218,15 @@ if (!$checkout) {
           <div class="line total-line"><span>Total</span><span class="total-price"><?= rupiah((int) $checkout['total']); ?></span></div>
 
             <input type="hidden" name="confirm_order" value="1">
-            <button class="btn-pay" id="btnBayar" type="submit">Pay <?= rupiah((int) $checkout['total']); ?></button>
+            <?php if (empty($user['ktp_image'])): ?>
+                <div style="background: rgba(231, 76, 60, 0.1); border: 1px solid #e74c3c; padding: 10px; border-radius: 8px; margin-bottom: 10px; text-align: center;">
+                    <p style="color: #e74c3c; font-size: 0.9em; margin: 0; font-weight: bold;">⛔ Akun Belum Terverifikasi (KYC)</p>
+                    <p style="color: #e74c3c; font-size: 0.8em; margin: 5px 0 0 0;">Harap unggah KTP di halaman Profil untuk melanjutkan transaksi.</p>
+                </div>
+                <button class="btn-pay" type="button" disabled style="opacity: 0.5; cursor: not-allowed;">Verifikasi Dulu</button>
+            <?php else: ?>
+                <button class="btn-pay" id="btnBayar" type="submit">Pay <?= rupiah((int) $checkout['total']); ?></button>
+            <?php endif; ?>
           <p class="secure-text">Pembayaran dienkripsi dan aman.</p>
         </div>
       </aside>

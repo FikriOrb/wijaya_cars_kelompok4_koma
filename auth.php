@@ -13,7 +13,7 @@ function current_user(): ?array
         return null;
     }
 
-    $stmt = get_db()->prepare('SELECT id, first_name, last_name, email, phone, alamat, koordinat, profile_pic, is_verified FROM users WHERE id = ? LIMIT 1');
+    $stmt = get_db()->prepare('SELECT id, first_name, last_name, email, phone, alamat, koordinat, profile_pic, is_verified, ktp_image FROM users WHERE id = ? LIMIT 1');
     $stmt->execute([(int) $_SESSION['user_id']]);
     $user = $stmt->fetch();
 
