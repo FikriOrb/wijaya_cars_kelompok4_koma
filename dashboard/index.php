@@ -124,6 +124,30 @@ $orders = $ordersStmt->fetchAll();
 
         function updateCoordinates(lat, lng) {
             document.getElementById('koordinat').value = lat + ',' + lng;
+            getAddressFromCoords(lat, lng);
+        }
+
+        function getAddressFromCoords(lat, lng) {
+            var url = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lng}`;
+            
+            // Tambahkan loading indicator ke textarea
+            var alamatInput = document.getElementById('alamat');
+            var oldVal = alamatInput.value;
+            alamatInput.value = "Sedang mencari alamat otomatis...";
+            
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data && data.display_name) {
+                        alamatInput.value = data.display_name;
+                    } else {
+                        alamatInput.value = oldVal;
+                    }
+                })
+                .catch(err => {
+                    console.error("Geocoding failed:", err);
+                    alamatInput.value = oldVal;
+                });
         }
 
         marker.on('dragend', function(e) {
@@ -136,6 +160,16 @@ $orders = $ordersStmt->fetchAll();
             updateCoordinates(e.latlng.lat, e.latlng.lng);
         });
         
+        // Dapatkan lokasi pengguna saat ini (Opsional/Auto-locate)
+        map.locate({setView: false, maxZoom: 16});
+        map.on('locationfound', function(e) {
+            if (!savedCoord) { // Hanya pindahkan jika belum ada koordinat tersimpan
+                map.setView(e.latlng, 15);
+                marker.setLatLng(e.latlng);
+                updateCoordinates(e.latlng.lat, e.latlng.lng);
+            }
+        });
+
         // Perbaiki map rendering jika tersembunyi
         setTimeout(function() { map.invalidateSize(); }, 500);
     });
