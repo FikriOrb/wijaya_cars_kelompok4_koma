@@ -85,6 +85,8 @@ function ensure_schema(PDO $pdo): void
             last_name VARCHAR(100) NOT NULL,
             email VARCHAR(255) NOT NULL UNIQUE,
             phone VARCHAR(30) NULL,
+            alamat TEXT NULL,
+            koordinat VARCHAR(100) NULL,
             password VARCHAR(255) NULL,
             profile_pic TEXT NULL,
             verification_code VARCHAR(6) NULL,
@@ -119,6 +121,8 @@ function ensure_schema(PDO $pdo): void
             total_harga BIGINT NOT NULL,
             status VARCHAR(50) NOT NULL DEFAULT 'Menunggu Verifikasi',
             bukti_pembayaran VARCHAR(255) NULL,
+            alamat_pengiriman TEXT NULL,
+            koordinat_pengiriman VARCHAR(100) NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             INDEX idx_orders_user_email (user_email)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
@@ -126,6 +130,10 @@ function ensure_schema(PDO $pdo): void
 
     try {
         $pdo->exec("ALTER TABLE orders ADD COLUMN bukti_pembayaran VARCHAR(255) NULL");
+        $pdo->exec("ALTER TABLE users ADD COLUMN alamat TEXT NULL");
+        $pdo->exec("ALTER TABLE users ADD COLUMN koordinat VARCHAR(100) NULL");
+        $pdo->exec("ALTER TABLE orders ADD COLUMN alamat_pengiriman TEXT NULL");
+        $pdo->exec("ALTER TABLE orders ADD COLUMN koordinat_pengiriman VARCHAR(100) NULL");
     } catch (PDOException $e) {
         // Abaikan jika kolom sudah ada
     }

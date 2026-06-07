@@ -69,8 +69,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_order'])) {
     }
 
     $stmt = $pdo->prepare('
-        INSERT INTO orders (user_email, mobil, warna, velg, mesin, total_harga, status, bukti_pembayaran)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO orders (user_email, mobil, warna, velg, mesin, total_harga, status, bukti_pembayaran, alamat_pengiriman, koordinat_pengiriman)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ');
     $stmt->execute([
         $user['email'],
@@ -80,7 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_order'])) {
         $checkout['mesin'],
         (int) $checkout['total'],
         'Menunggu Verifikasi',
-        $buktiName
+        $buktiName,
+        $user['alamat'] ?? '',
+        $user['koordinat'] ?? ''
     ]);
     $orderId = (int) $pdo->lastInsertId();
     unset($_SESSION['checkout']);
@@ -167,11 +169,32 @@ if (!$checkout) {
         </div>
 
         <div class="card glass-panel">
-          <h3>Billing Address</h3>
-          <label class="check">
-            <input type="checkbox" checked>
-            Alamat tagihan sama dengan alamat pengiriman
-          </label>
+          <h3>Shipping Address</h3>
+          <?php if (empty($user['alamat'])): ?>
+            <div class="alert" style="background: rgba(255,0,0,0.1); border: 1px solid red; padding: 15px; border-radius: 8px; margin-top: 10px;">
+                <p>⚠️ Anda belum mengatur alamat pengiriman!</p>
+                <a href="../dashboard/index.php" style="color: #ff4757; text-decoration: underline; display: inline-block; margin-top: 5px;">Atur Alamat di Profil sekarang</a>
+            </div>
+          <?php else: ?>
+            <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 15px; border-radius: 8px; margin-top: 15px;">
+                <p style="margin-bottom: 5px; color: #aaa;">Alamat Pengiriman:</p>
+                <p style="font-weight: 500; line-height: 1.5; margin-bottom: 15px;"><?= nl2br(e($user['alamat'])); ?></p>
+                
+                <?php if (!empty($user['koordinat'])): ?>
+                    <a href="https://www.google.com/maps/search/?api=1&query=<?= urlencode($user['koordinat']); ?>" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(33, 150, 243, 0.2); color: #2196F3; padding: 8px 15px; border-radius: 6px; text-decoration: none; font-size: 0.9em;">
+                        📍 Lihat Titik di Google Maps
+                    </a>
+                <?php endif; ?>
+                
+                <div style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255,255,255,0.1);">
+                    <a href="../dashboard/index.php" style="color: #aaa; font-size: 0.9em; text-decoration: underline;">Edit Alamat di Profil</a>
+                </div>
+            </div>
+            <label class="check" style="margin-top: 15px;">
+                <input type="checkbox" checked required>
+                Saya mengonfirmasi alamat pengiriman sudah benar
+            </label>
+          <?php endif; ?>
         </div>
       </div>
 
@@ -232,6 +255,13 @@ if (!$checkout) {
           alert('📄 Peringatan: Mohon lampirkan Bukti Pembayaran transfer Anda!');
           return;
         }
+      }
+
+      const hasAddress = <?= empty($user['alamat']) ? 'false' : 'true' ?>;
+      if (!hasAddress) {
+          e.preventDefault();
+          alert('🚚 Peringatan: Mohon atur Alamat Pengiriman Anda di halaman Profil terlebih dahulu sebelum melakukan pembayaran!');
+          return;
       }
 
       const button = document.getElementById('btnBayar');
