@@ -12,7 +12,7 @@ require_login();
     <title>Gallery - Wijaya Cars</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../Beranda/style.css">
-    <link rel="stylesheet" href="style-gallery.css?v=20260514-2">
+    <link rel="stylesheet" href="style-gallery.css?v=20260607-1">
 </head>
 <body>
     <?php include __DIR__ . '/../navbar.php'; ?>
