@@ -199,7 +199,7 @@ if (!$checkout) {
                 
                 <?php if (!empty($user['koordinat'])): ?>
                     <a href="https://www.google.com/maps/search/?api=1&query=<?= urlencode($user['koordinat']); ?>" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-size: 0.85em; font-weight: 500; letter-spacing: 0.5px; transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
-                        📍 VIEW ON MAPS
+                        📍 LIHAT DI PETA
                     </a>
                 <?php endif; ?>
                 
@@ -217,7 +217,7 @@ if (!$checkout) {
 
       <aside class="right">
         <div class="summary glass-panel">
-          <h3>Order Summary</h3>
+          <h3>Ringkasan Pemesanan</h3>
           <div class="product">
             <img src="../models/<?= e($checkout['gambar']); ?>" class="car-img" alt="<?= e($checkout['mobil']); ?>">
             <div>
@@ -254,12 +254,12 @@ if (!$checkout) {
             <input type="hidden" name="confirm_order" value="1">
             <?php if (empty($user['ktp_image'])): ?>
                 <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px; border-radius: 4px; margin-bottom: 15px; text-align: center;">
-                    <p style="color: #ccc; font-size: 0.85em; margin: 0; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;">⛔ IDENTITY UNVERIFIED</p>
-                    <p style="color: #888; font-size: 0.8em; margin: 5px 0 0 0;">Please upload your KTP in the Profile page to proceed.</p>
+                    <p style="color: #ccc; font-size: 0.85em; margin: 0; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;">⛔ IDENTITAS BELUM TERVERIFIKASI</p>
+                    <p style="color: #888; font-size: 0.8em; margin: 5px 0 0 0;">Harap unggah KTP Anda di halaman Profil untuk melanjutkan.</p>
                 </div>
-                <button class="btn-pay" type="button" disabled style="background: transparent; color: #555; border: 1px solid #555; opacity: 0.7; cursor: not-allowed; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">ACTION REQUIRED</button>
+                <button class="btn-pay" type="button" disabled style="background: transparent; color: #555; border: 1px solid #555; opacity: 0.7; cursor: not-allowed; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">WAJIB DILENGKAPI</button>
             <?php else: ?>
-                <button class="btn-pay" id="btnBayar" type="submit" style="background: #fff; color: #000; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 4px; transition: 0.3s;" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='#fff'">PAY <?= rupiah((int) $checkout['total']); ?></button>
+                <button class="btn-pay" id="btnBayar" type="submit" style="background: #fff; color: #000; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 4px; transition: 0.3s;" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='#fff'">BAYAR <?= rupiah((int) $checkout['total']); ?></button>
             <?php endif; ?>
           <p class="secure-text">Pembayaran dienkripsi dan aman.</p>
         </div>

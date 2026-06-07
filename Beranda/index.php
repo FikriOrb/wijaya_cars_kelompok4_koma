@@ -46,11 +46,10 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
             <h1 class="title">WIJAYA<br>CARS</h1>
  
             <p class="desc">
-                Discover the ultimate definition of luxury and speed. 
-                We bring you a curated collection of the world's finest automobiles, 
-                designed for those who demand excellence in every journey.
+                Temukan definisi tertinggi dari kemewahan dan kecepatan. 
+                Kami menghadirkan koleksi mobil terbaik dunia yang dikurasi khusus untuk Anda yang menginginkan kesempurnaan di setiap perjalanan.
             </p>
-            <a class="discover-btn" href="../Gallery/gallery.php">DISCOVER</a>
+            <a class="discover-btn" href="../Gallery/gallery.php">JELAJAHI SEKARANG</a>
         </div>
         <div class="hero-video-container">
             <video class="hero-video" autoplay muted loop poster="../models/BMW M850i.jpg">
@@ -63,14 +62,14 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
  
         <section class="specials scroll-fade">
             <div class="top-bar">
-                <h2>TODAY'S SPECIALS</h2>
+                <h2>SPESIAL HARI INI</h2>
  
                 <div class="filters">
-                    <button class="filter-btn active" data-category="All">All</button>
+                    <button class="filter-btn active" data-category="All">Semua</button>
                     <button class="filter-btn" data-category="SUV">SUV</button>
                     <button class="filter-btn" data-category="Sport">Sport</button>
                     <button class="filter-btn" data-category="Luxury">Luxury</button>
-                    <a href="../Gallery/gallery.php" class="view-all">View All Cars</a>
+                    <a href="../Gallery/gallery.php" class="view-all">Lihat Semua Mobil</a>
                 </div>
             </div>
  

@@ -63,11 +63,11 @@ $orders = $ordersStmt->fetchAll();
     <section class="dashboard-grid">
         <form class="glass-panel dashboard-card" method="post" enctype="multipart/form-data">
             <div style="display: flex; justify-content: space-between; align-items: center;">
-                <h2>Profile & Identity</h2>
+                <h2>Profil & Identitas</h2>
                 <?php if (!empty($user['ktp_image'])): ?>
-                    <span style="background: rgba(255, 255, 255, 0.1); color: #fff; padding: 5px 12px; border-radius: 4px; font-size: 0.8em; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.3); letter-spacing: 1px;">✓ KYC VERIFIED</span>
+                    <span style="background: rgba(255, 255, 255, 0.1); color: #fff; padding: 5px 12px; border-radius: 4px; font-size: 0.8em; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.3); letter-spacing: 1px;">✓ TERVERIFIKASI</span>
                 <?php else: ?>
-                    <span style="background: rgba(231, 76, 60, 0.1); color: #e74c3c; padding: 5px 12px; border-radius: 4px; font-size: 0.8em; font-weight: 600; border: 1px solid rgba(231, 76, 60, 0.3); letter-spacing: 1px;">✕ UNVERIFIED</span>
+                    <span style="background: rgba(231, 76, 60, 0.1); color: #e74c3c; padding: 5px 12px; border-radius: 4px; font-size: 0.8em; font-weight: 600; border: 1px solid rgba(231, 76, 60, 0.3); letter-spacing: 1px;">✕ BELUM VERIFIKASI</span>
                 <?php endif; ?>
             </div>
             <?php if ($message): ?><div class="alert"><?= e($message); ?></div><?php endif; ?>
@@ -84,13 +84,13 @@ $orders = $ordersStmt->fetchAll();
                 <input type="file" id="ktp_upload" name="ktp_upload" accept="image/*" style="padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: #fff; width: 100%; margin-bottom: 15px;" required>
             <?php endif; ?>
             
-            <label for="first_name">First Name</label>
+            <label for="first_name">Nama Depan</label>
             <input type="text" id="first_name" name="first_name" value="<?= e($user['first_name']); ?>" required>
             
-            <label for="last_name">Last Name</label>
+            <label for="last_name">Nama Belakang</label>
             <input type="text" id="last_name" name="last_name" value="<?= e($user['last_name']); ?>" required>
             
-            <label for="phone">Phone</label>
+            <label for="phone">Nomor Telepon</label>
             <input type="tel" id="phone" name="phone" value="<?= e($user['phone'] ?? ''); ?>">
 
             <label for="alamat">Alamat Lengkap</label>
@@ -103,11 +103,11 @@ $orders = $ordersStmt->fetchAll();
             </div>
             <input type="hidden" id="koordinat" name="koordinat" value="<?= e($user['koordinat'] ?? ''); ?>">
             
-            <button type="submit" class="btn-submit" style="border-radius: 6px; letter-spacing: 1px; font-weight: 600;">SAVE PROFILE & ADDRESS</button>
+            <button type="submit" class="btn-submit" style="border-radius: 6px; letter-spacing: 1px; font-weight: 600;">SIMPAN PROFIL & ALAMAT</button>
         </form>
 
         <div class="glass-panel dashboard-card orders-card">
-            <h2>Order History</h2>
+            <h2>Riwayat Pemesanan</h2>
             <?php foreach ($orders as $order): ?>
                 <div class="order-row" style="align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 15px;">
                     <div style="flex: 1;">
@@ -122,7 +122,7 @@ $orders = $ordersStmt->fetchAll();
                         </div>
                     </div>
                     <div>
-                        <a href="order_detail.php?id=<?= (int) $order['id']; ?>" style="background: transparent; color: #fff; padding: 8px 20px; border-radius: 4px; border: 1px solid #fff; text-decoration: none; font-size: 0.85em; font-weight: 600; display: inline-block; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;" onmouseover="this.style.background='#fff'; this.style.color='#000'" onmouseout="this.style.background='transparent'; this.style.color='#fff'">View Status</a>
+                        <a href="order_detail.php?id=<?= (int) $order['id']; ?>" style="background: transparent; color: #fff; padding: 8px 20px; border-radius: 4px; border: 1px solid #fff; text-decoration: none; font-size: 0.85em; font-weight: 600; display: inline-block; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;" onmouseover="this.style.background='#fff'; this.style.color='#000'" onmouseout="this.style.background='transparent'; this.style.color='#fff'">Lihat Status</a>
                     </div>
                 </div>
             <?php endforeach; ?>

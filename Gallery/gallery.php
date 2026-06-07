@@ -18,7 +18,7 @@ require_login();
     <?php include __DIR__ . '/../navbar.php'; ?>
 
     <section class="gallery-header">
-        <h1>Exclusive Collection</h1>
+        <h1>Koleksi Eksklusif</h1>
         <p class="subtitle">Koleksi mobil mewah pilihan terbaik.</p>
     </section>
 
@@ -26,7 +26,7 @@ require_login();
         <div class="gallery-tools gallery-tools-premium">
             <div class="search-panel">
                 <label class="search-box" for="searchInput">
-                    <span>Search Collection</span>
+                    <span>Cari Koleksi</span>
                     <div class="search-field">
                         <span class="search-icon" aria-hidden="true"></span>
                         <input id="searchInput" type="search" placeholder="Cari model, contoh: Porsche">
@@ -37,9 +37,9 @@ require_login();
             </div>
 
             <div class="filter-panel">
-                <span class="filter-label">Category</span>
+                <span class="filter-label">Kategori</span>
                 <div class="filter-tabs" aria-label="Category filters">
-                    <button type="button" class="filter active" data-category="">All</button>
+                    <button type="button" class="filter active" data-category="">Semua</button>
                     <button type="button" class="filter" data-category="SUV">SUV</button>
                     <button type="button" class="filter" data-category="Luxury">Luxury</button>
                     <button type="button" class="filter" data-category="Sport">Sport</button>
@@ -95,8 +95,8 @@ require_login();
                         <span class="category-pill">${escapeHtml(car.category)}</span>
                         <h3 class="car2-name">${escapeHtml(car.car_name)}</h3>
                         <div class="price">${escapeHtml(car.price_label)}</div>
-                        <a class="btn-beli" href="../modif/modif.php?car_id=${car.id}">
-                            <span>Detail Unit</span>
+                                <a href="../modif/modif.php?car_id=${car.id}" class="btn-beli">
+                                    <span>Detail Unit</span>
                             <i aria-hidden="true"></i>
                         </a>
                     </div>
