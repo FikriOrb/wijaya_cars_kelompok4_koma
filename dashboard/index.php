@@ -106,14 +106,20 @@ $orders = $ordersStmt->fetchAll();
         <div class="glass-panel dashboard-card orders-card">
             <h2>Order History</h2>
             <?php foreach ($orders as $order): ?>
-                <div class="order-row">
-                    <div>
-                        <strong>#WC-<?= (int) $order['id']; ?> <?= e($order['mobil']); ?></strong>
-                        <span><?= e($order['warna']); ?> / <?= e($order['velg']); ?> / <?= e($order['mesin']); ?></span>
+                <div class="order-row" style="align-items: center;">
+                    <div style="flex: 1;">
+                        <strong style="font-size: 1.1em; color: #fff;">#WC-<?= (int) $order['id']; ?> <?= e($order['mobil']); ?></strong>
+                        <div style="color: #aaa; font-size: 0.9em; margin-top: 4px;">Spesifikasi: <?= e($order['warna']); ?> / <?= e($order['velg']); ?> / <?= e($order['mesin']); ?></div>
+                        <div style="color: #aaa; font-size: 0.9em; margin-top: 4px;">Tanggal: <?= date('d M Y', strtotime($order['created_at'])); ?></div>
+                    </div>
+                    <div style="text-align: right; margin-right: 15px;">
+                        <b style="color: #2ecc71; font-size: 1.1em;"><?= rupiah((int) $order['total_harga']); ?></b>
+                        <div style="margin-top: 4px;">
+                            <span style="background: rgba(241, 196, 15, 0.2); color: #f1c40f; padding: 3px 8px; border-radius: 4px; font-size: 0.8em;"><?= e($order['status']); ?></span>
+                        </div>
                     </div>
                     <div>
-                        <b><?= rupiah((int) $order['total_harga']); ?></b>
-                        <small><?= e($order['status']); ?></small>
+                        <a href="order_detail.php?id=<?= (int) $order['id']; ?>" style="background: #2196F3; color: #fff; padding: 8px 15px; border-radius: 6px; text-decoration: none; font-size: 0.9em; font-weight: bold; display: inline-block;">Lihat Status</a>
                     </div>
                 </div>
             <?php endforeach; ?>
