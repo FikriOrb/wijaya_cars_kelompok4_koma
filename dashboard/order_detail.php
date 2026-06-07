@@ -58,7 +58,7 @@ $carImage = $carData ? $carData['file_name'] : 'placeholder.jpg';
     .car-info img { width: 150px; border-radius: 8px; }
     .car-details h3 { margin: 0 0 5px 0; font-size: 1.3em; }
     .car-details p { color: #aaa; margin: 0 0 5px 0; font-size: 0.9em; }
-    .car-price { font-size: 1.2em; font-weight: bold; color: #2ecc71; margin-top: 10px; }
+    .car-price { font-size: 1.2em; font-weight: bold; color: #fff; margin-top: 10px; letter-spacing: 0.5px; }
 
     /* Timeline Styles */
     .timeline { position: relative; margin: 40px 0; padding-left: 30px; list-style: none; }
@@ -70,16 +70,16 @@ $carImage = $carData ? $carData['file_name'] : 'placeholder.jpg';
         border-radius: 50%; background: #333; border: 2px solid #555; z-index: 2;
     }
     
-    .timeline-item.active::before { background: #2ecc71; border-color: #2ecc71; box-shadow: 0 0 10px rgba(46, 204, 113, 0.5); }
-    .timeline-item.completed::before { background: #2ecc71; border-color: #2ecc71; }
+    .timeline-item.active::before { background: #fff; border-color: #fff; box-shadow: 0 0 15px rgba(255, 255, 255, 0.4); }
+    .timeline-item.completed::before { background: #fff; border-color: #fff; }
     .timeline-item.completed::after {
         content: ''; position: absolute; left: -24px; top: 14px; width: 2px; height: calc(100% + 16px);
-        background: #2ecc71; z-index: 1;
+        background: #fff; z-index: 1;
     }
 
     .timeline-content { padding-top: -5px; }
-    .timeline-title { font-weight: bold; font-size: 1.1em; margin-bottom: 5px; color: #fff; }
-    .timeline-item.completed .timeline-title, .timeline-item.active .timeline-title { color: #2ecc71; }
+    .timeline-title { font-weight: bold; font-size: 1.1em; margin-bottom: 5px; color: #666; }
+    .timeline-item.completed .timeline-title, .timeline-item.active .timeline-title { color: #fff; }
     .timeline-desc { color: #aaa; font-size: 0.9em; line-height: 1.5; }
     
     .timeline-date { font-size: 0.8em; color: #888; margin-top: 5px; }
@@ -140,8 +140,8 @@ $carImage = $carData ? $carData['file_name'] : 'placeholder.jpg';
                         <div class="timeline-title">Sedang Dikirim</div>
                         <div class="timeline-desc">Kendaraan telah lulus inspeksi kualitas (Quality Control) dan saat ini sedang dalam perjalanan menuju alamat pengiriman Anda menggunakan Towing VIP kami.</div>
                         <?php if ($currentStep >= 3): ?>
-                            <div style="background: rgba(33, 150, 243, 0.1); border: 1px solid rgba(33, 150, 243, 0.3); padding: 10px; border-radius: 8px; margin-top: 10px;">
-                                📍 <strong>Alamat Pengiriman:</strong><br>
+                            <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px; border-radius: 6px; margin-top: 10px; color: #ccc;">
+                                <span style="display: block; margin-bottom: 5px; font-weight: bold; color: #fff; letter-spacing: 0.5px;">📍 ALAMAT PENGIRIMAN:</span>
                                 <?= nl2br(e($order['alamat_pengiriman'])); ?>
                             </div>
                         <?php endif; ?>

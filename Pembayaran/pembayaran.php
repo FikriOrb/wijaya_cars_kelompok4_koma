@@ -198,8 +198,8 @@ if (!$checkout) {
                 <p style="font-weight: 500; line-height: 1.5; margin-bottom: 15px;"><?= nl2br(e($user['alamat'])); ?></p>
                 
                 <?php if (!empty($user['koordinat'])): ?>
-                    <a href="https://www.google.com/maps/search/?api=1&query=<?= urlencode($user['koordinat']); ?>" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: rgba(33, 150, 243, 0.2); color: #2196F3; padding: 8px 15px; border-radius: 6px; text-decoration: none; font-size: 0.9em;">
-                        📍 Lihat Titik di Google Maps
+                    <a href="https://www.google.com/maps/search/?api=1&query=<?= urlencode($user['koordinat']); ?>" target="_blank" style="display: inline-flex; align-items: center; gap: 8px; background: transparent; border: 1px solid rgba(255, 255, 255, 0.3); color: #fff; padding: 8px 15px; border-radius: 4px; text-decoration: none; font-size: 0.85em; font-weight: 500; letter-spacing: 0.5px; transition: 0.3s;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">
+                        📍 VIEW ON MAPS
                     </a>
                 <?php endif; ?>
                 
@@ -247,19 +247,19 @@ if (!$checkout) {
               <div class="line" style="color: #aaa; font-size: 0.9em; margin-bottom: 8px;"><span>Biaya Penanganan / Admin</span><span><?= rupiah((int) ($checkout['admin'] ?? 0)); ?></span></div>
           </div>
           
-          <div class="line total-line" style="border-top: 1px dashed rgba(255,255,255,0.3); padding-top: 15px;">
-              <span>Grand Total</span><span class="total-price" style="color: #2ecc71; font-size: 1.3em;"><?= rupiah((int) $checkout['total']); ?></span>
+          <div class="line total-line" style="border-top: 1px solid rgba(255,255,255,0.2); padding-top: 15px;">
+              <span style="font-weight: 600; letter-spacing: 1px; text-transform: uppercase;">Grand Total</span><span class="total-price" style="color: #fff; font-size: 1.3em; font-weight: bold; letter-spacing: 0.5px;"><?= rupiah((int) $checkout['total']); ?></span>
           </div>
 
             <input type="hidden" name="confirm_order" value="1">
             <?php if (empty($user['ktp_image'])): ?>
-                <div style="background: rgba(231, 76, 60, 0.1); border: 1px solid #e74c3c; padding: 10px; border-radius: 8px; margin-bottom: 10px; text-align: center;">
-                    <p style="color: #e74c3c; font-size: 0.9em; margin: 0; font-weight: bold;">⛔ Akun Belum Terverifikasi (KYC)</p>
-                    <p style="color: #e74c3c; font-size: 0.8em; margin: 5px 0 0 0;">Harap unggah KTP di halaman Profil untuk melanjutkan transaksi.</p>
+                <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px; border-radius: 4px; margin-bottom: 15px; text-align: center;">
+                    <p style="color: #ccc; font-size: 0.85em; margin: 0; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;">⛔ IDENTITY UNVERIFIED</p>
+                    <p style="color: #888; font-size: 0.8em; margin: 5px 0 0 0;">Please upload your KTP in the Profile page to proceed.</p>
                 </div>
-                <button class="btn-pay" type="button" disabled style="opacity: 0.5; cursor: not-allowed;">Verifikasi Dulu</button>
+                <button class="btn-pay" type="button" disabled style="background: transparent; color: #555; border: 1px solid #555; opacity: 0.7; cursor: not-allowed; text-transform: uppercase; letter-spacing: 1px; font-weight: 600;">ACTION REQUIRED</button>
             <?php else: ?>
-                <button class="btn-pay" id="btnBayar" type="submit">Pay <?= rupiah((int) $checkout['total']); ?></button>
+                <button class="btn-pay" id="btnBayar" type="submit" style="background: #fff; color: #000; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border-radius: 4px; transition: 0.3s;" onmouseover="this.style.background='#eee'" onmouseout="this.style.background='#fff'">PAY <?= rupiah((int) $checkout['total']); ?></button>
             <?php endif; ?>
           <p class="secure-text">Pembayaran dienkripsi dan aman.</p>
         </div>
