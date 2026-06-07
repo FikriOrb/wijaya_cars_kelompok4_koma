@@ -288,7 +288,7 @@ while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                     const cardsHtml = data.map(car => {
                         const badgeClass = car.category.toLowerCase();
                         return `
-                            <a href="../Gallery/gallery.php" class="card">
+                            <a href="../modif/modif.php?car_id=${car.id}" class="card">
                                 <img src="../models/${escapeHtml(car.file_name)}" alt="${escapeHtml(car.car_name)}">
                                 <span class="badge ${badgeClass}">${escapeHtml(car.category)}</span>
                                 <h3 class="car-name">${escapeHtml(car.car_name)}</h3>
