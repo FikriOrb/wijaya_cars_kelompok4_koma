@@ -65,20 +65,23 @@ $orders = $ordersStmt->fetchAll();
             <div style="display: flex; justify-content: space-between; align-items: center;">
                 <h2>Profile & Identity</h2>
                 <?php if (!empty($user['ktp_image'])): ?>
-                    <span style="background: rgba(46, 204, 113, 0.2); color: #2ecc71; padding: 5px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold;">✅ KYC Verified</span>
+                    <span style="background: rgba(255, 255, 255, 0.1); color: #fff; padding: 5px 12px; border-radius: 4px; font-size: 0.8em; font-weight: 600; border: 1px solid rgba(255, 255, 255, 0.3); letter-spacing: 1px;">✓ KYC VERIFIED</span>
                 <?php else: ?>
-                    <span style="background: rgba(231, 76, 60, 0.2); color: #e74c3c; padding: 5px 10px; border-radius: 20px; font-size: 0.8em; font-weight: bold;">❌ Unverified</span>
+                    <span style="background: rgba(231, 76, 60, 0.1); color: #e74c3c; padding: 5px 12px; border-radius: 4px; font-size: 0.8em; font-weight: 600; border: 1px solid rgba(231, 76, 60, 0.3); letter-spacing: 1px;">✕ UNVERIFIED</span>
                 <?php endif; ?>
             </div>
             <?php if ($message): ?><div class="alert"><?= e($message); ?></div><?php endif; ?>
 
             <label style="margin-top: 15px;">Dokumen Identitas (KTP) - Wajib untuk Transaksi</label>
             <?php if (!empty($user['ktp_image'])): ?>
-                <div style="background: rgba(255,255,255,0.05); padding: 10px; border-radius: 8px; margin-bottom: 15px; border: 1px solid rgba(46, 204, 113, 0.3);">
-                    <p style="color: #2ecc71; font-size: 0.9em; margin: 0;">✓ KTP sudah diunggah. Akun Anda telah diverifikasi.</p>
+                <div style="background: rgba(255,255,255,0.03); padding: 12px; border-radius: 6px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <p style="color: #ccc; font-size: 0.9em; margin: 0; display: flex; align-items: center; gap: 8px;">
+                        <span style="display: inline-block; width: 8px; height: 8px; background: #fff; border-radius: 50%;"></span>
+                        Dokumen identitas telah diunggah dan terverifikasi.
+                    </p>
                 </div>
             <?php else: ?>
-                <input type="file" id="ktp_upload" name="ktp_upload" accept="image/*" style="padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; width: 100%; margin-bottom: 15px;" required>
+                <input type="file" id="ktp_upload" name="ktp_upload" accept="image/*" style="padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 6px; color: #fff; width: 100%; margin-bottom: 15px;" required>
             <?php endif; ?>
             
             <label for="first_name">First Name</label>
@@ -91,35 +94,35 @@ $orders = $ordersStmt->fetchAll();
             <input type="tel" id="phone" name="phone" value="<?= e($user['phone'] ?? ''); ?>">
 
             <label for="alamat">Alamat Lengkap</label>
-            <textarea id="alamat" name="alamat" rows="3" style="width:100%; padding:10px; background:rgba(255,255,255,0.05); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:8px;" placeholder="Ketik alamat pengiriman lengkap Anda..."><?= e($user['alamat'] ?? ''); ?></textarea>
+            <textarea id="alamat" name="alamat" rows="3" style="width:100%; padding:10px; background:rgba(255,255,255,0.05); color:#fff; border:1px solid rgba(255,255,255,0.1); border-radius:6px;" placeholder="Ketik alamat pengiriman lengkap Anda..."><?= e($user['alamat'] ?? ''); ?></textarea>
 
             <label>Titik Lokasi Maps</label>
-            <button type="button" id="toggleMapBtn" style="width:100%; padding:10px; background:rgba(33, 150, 243, 0.2); color:#2196F3; border:1px solid rgba(33, 150, 243, 0.5); border-radius:8px; margin-bottom:15px; cursor:pointer; font-weight:600;">📍 Buka Peta untuk Pilih Lokasi</button>
+            <button type="button" id="toggleMapBtn" style="width:100%; padding:12px; background:transparent; color:#fff; border:1px solid rgba(255, 255, 255, 0.3); border-radius:6px; margin-bottom:15px; cursor:pointer; font-weight:500; transition: 0.3s; letter-spacing: 0.5px;" onmouseover="this.style.background='rgba(255,255,255,0.1)'" onmouseout="this.style.background='transparent'">📍 Buka Peta untuk Pilih Lokasi</button>
             <div id="mapContainer" style="display: none; margin-bottom: 15px;">
-                <div id="map" style="height: 300px; width: 100%; border-radius: 8px; border:1px solid rgba(255,255,255,0.1);"></div>
+                <div id="map" style="height: 300px; width: 100%; border-radius: 6px; border:1px solid rgba(255,255,255,0.1);"></div>
             </div>
             <input type="hidden" id="koordinat" name="koordinat" value="<?= e($user['koordinat'] ?? ''); ?>">
             
-            <button type="submit" class="btn-submit">Save Profile & Address</button>
+            <button type="submit" class="btn-submit" style="border-radius: 6px; letter-spacing: 1px; font-weight: 600;">SAVE PROFILE & ADDRESS</button>
         </form>
 
         <div class="glass-panel dashboard-card orders-card">
             <h2>Order History</h2>
             <?php foreach ($orders as $order): ?>
-                <div class="order-row" style="align-items: center;">
+                <div class="order-row" style="align-items: center; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 15px; margin-bottom: 15px;">
                     <div style="flex: 1;">
-                        <strong style="font-size: 1.1em; color: #fff;">#WC-<?= (int) $order['id']; ?> <?= e($order['mobil']); ?></strong>
-                        <div style="color: #aaa; font-size: 0.9em; margin-top: 4px;">Spesifikasi: <?= e($order['warna']); ?> / <?= e($order['velg']); ?> / <?= e($order['mesin']); ?></div>
-                        <div style="color: #aaa; font-size: 0.9em; margin-top: 4px;">Tanggal: <?= date('d M Y', strtotime($order['created_at'])); ?></div>
+                        <strong style="font-size: 1.1em; color: #fff; letter-spacing: 0.5px;">#WC-<?= (int) $order['id']; ?> <?= e($order['mobil']); ?></strong>
+                        <div style="color: #888; font-size: 0.85em; margin-top: 6px;">Spesifikasi: <?= e($order['warna']); ?> / <?= e($order['velg']); ?> / <?= e($order['mesin']); ?></div>
+                        <div style="color: #666; font-size: 0.8em; margin-top: 4px;">Tanggal: <?= date('d M Y', strtotime($order['created_at'])); ?></div>
                     </div>
-                    <div style="text-align: right; margin-right: 15px;">
-                        <b style="color: #2ecc71; font-size: 1.1em;"><?= rupiah((int) $order['total_harga']); ?></b>
-                        <div style="margin-top: 4px;">
-                            <span style="background: rgba(241, 196, 15, 0.2); color: #f1c40f; padding: 3px 8px; border-radius: 4px; font-size: 0.8em;"><?= e($order['status']); ?></span>
+                    <div style="text-align: right; margin-right: 20px;">
+                        <b style="color: #fff; font-size: 1.1em; letter-spacing: 0.5px;"><?= rupiah((int) $order['total_harga']); ?></b>
+                        <div style="margin-top: 6px;">
+                            <span style="background: rgba(255, 255, 255, 0.05); color: #ccc; padding: 4px 10px; border-radius: 4px; border: 1px solid rgba(255, 255, 255, 0.1); font-size: 0.75em; text-transform: uppercase; letter-spacing: 1px;"><?= e($order['status']); ?></span>
                         </div>
                     </div>
                     <div>
-                        <a href="order_detail.php?id=<?= (int) $order['id']; ?>" style="background: #2196F3; color: #fff; padding: 8px 15px; border-radius: 6px; text-decoration: none; font-size: 0.9em; font-weight: bold; display: inline-block;">Lihat Status</a>
+                        <a href="order_detail.php?id=<?= (int) $order['id']; ?>" style="background: transparent; color: #fff; padding: 8px 20px; border-radius: 4px; border: 1px solid #fff; text-decoration: none; font-size: 0.85em; font-weight: 600; display: inline-block; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;" onmouseover="this.style.background='#fff'; this.style.color='#000'" onmouseout="this.style.background='transparent'; this.style.color='#fff'">View Status</a>
                     </div>
                 </div>
             <?php endforeach; ?>
