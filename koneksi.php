@@ -118,10 +118,17 @@ function ensure_schema(PDO $pdo): void
             mesin VARCHAR(100) NOT NULL,
             total_harga BIGINT NOT NULL,
             status VARCHAR(50) NOT NULL DEFAULT 'Menunggu Verifikasi',
+            bukti_pembayaran VARCHAR(255) NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
             INDEX idx_orders_user_email (user_email)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
     ");
+
+    try {
+        $pdo->exec("ALTER TABLE orders ADD COLUMN bukti_pembayaran VARCHAR(255) NULL");
+    } catch (PDOException $e) {
+        // Abaikan jika kolom sudah ada
+    }
 
     $count = (int) $pdo->query('SELECT COUNT(*) FROM cars')->fetchColumn();
     if ($count > 0) {

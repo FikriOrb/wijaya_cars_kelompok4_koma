@@ -60,9 +60,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_order'])) {
         redirect_to('/Gallery/gallery.php');
     }
 
+    $buktiName = null;
+    if (isset($_FILES['bukti_transfer']) && $_FILES['bukti_transfer']['error'] === UPLOAD_ERR_OK) {
+        $tmpName = $_FILES['bukti_transfer']['tmp_name'];
+        $ext = pathinfo($_FILES['bukti_transfer']['name'], PATHINFO_EXTENSION);
+        $buktiName = 'tf_' . time() . '_' . bin2hex(random_bytes(4)) . '.' . $ext;
+        move_uploaded_file($tmpName, __DIR__ . '/../uploads/' . $buktiName);
+    }
+
     $stmt = $pdo->prepare('
-        INSERT INTO orders (user_email, mobil, warna, velg, mesin, total_harga, status)
-        VALUES (?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO orders (user_email, mobil, warna, velg, mesin, total_harga, status, bukti_pembayaran)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?)
     ');
     $stmt->execute([
         $user['email'],
@@ -72,6 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_order'])) {
         $checkout['mesin'],
         (int) $checkout['total'],
         'Menunggu Verifikasi',
+        $buktiName
     ]);
     $orderId = (int) $pdo->lastInsertId();
     unset($_SESSION['checkout']);
@@ -105,7 +114,7 @@ if (!$checkout) {
         <p class="subtitle">Selesaikan pembayaran Anda untuk membawa pulang mobil impian.</p>
     </div>
 
-    <div class="layout">
+    <form class="layout" method="post" id="paymentForm" enctype="multipart/form-data">
       <div class="left">
         <div class="card glass-panel">
           <h3>Payment Method</h3>
@@ -151,6 +160,8 @@ if (!$checkout) {
                 <input type="text" value="8800 1234 5678 9000" readonly>
                 <span class="icon">COPY</span>
               </div>
+              <label style="margin-top: 15px;">Bukti Pembayaran (Wajib)</label>
+              <input type="file" id="bukti-transfer" name="bukti_transfer" accept="image/*" style="padding: 10px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #fff; width: 100%;">
             </div>
           </div>
         </div>
@@ -183,14 +194,12 @@ if (!$checkout) {
           <div class="line"><span>Car Price</span><span><?= rupiah((int) $checkout['harga_dasar']); ?></span></div>
           <div class="line total-line"><span>Total</span><span class="total-price"><?= rupiah((int) $checkout['total']); ?></span></div>
 
-          <form method="post" id="paymentForm">
             <input type="hidden" name="confirm_order" value="1">
             <button class="btn-pay" id="btnBayar" type="submit">Pay <?= rupiah((int) $checkout['total']); ?></button>
-          </form>
           <p class="secure-text">Pembayaran dienkripsi dan aman.</p>
         </div>
       </aside>
-    </div>
+    </form>
   </main>
 
 <?php include __DIR__ . '/../footer.php'; ?>
@@ -214,6 +223,13 @@ if (!$checkout) {
         if (number.replace(/\s/g, '').length < 16) {
           e.preventDefault();
           alert('💳 Peringatan: Nomor kartu kredit tidak valid! (Harus 16 digit)');
+          return;
+        }
+      } else {
+        const bukti = document.getElementById('bukti-transfer');
+        if (!bukti || bukti.files.length === 0) {
+          e.preventDefault();
+          alert('📄 Peringatan: Mohon lampirkan Bukti Pembayaran transfer Anda!');
           return;
         }
       }
