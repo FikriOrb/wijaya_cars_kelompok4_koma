@@ -62,7 +62,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - Wijaya Cars</title>
+    <title>Daftar - Wijaya Cars</title>
     <link rel="stylesheet" href="tema_lc.css">
 </head>
 <body>
@@ -72,8 +72,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="brand-text">WIJAYA CARS</div>
 
                 <div class="header-text">
-                    <h1>Create Account</h1>
-                    <p class="subtitle">Already a member? <a href="Login.php" class="link">Log in</a></p>
+                    <h1>Buat Akun</h1>
+                    <p class="subtitle">Sudah punya akun? <a href="Login.php" class="link">Masuk</a></p>
                 </div>
 
                 <?php if ($error): ?>
@@ -86,12 +86,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <form method="post" autocomplete="on">
                     <div class="name-row">
                         <div>
-                            <label for="first-name">First Name</label>
-                            <input type="text" id="first-name" name="first_name" value="<?= e($values['first_name']); ?>" placeholder="John" required>
+                            <label for="first-name">Nama Depan</label>
+                            <input type="text" id="first-name" name="first_name" value="<?= e($values['first_name']); ?>" placeholder="Budi" required>
                         </div>
                         <div>
-                            <label for="last-name">Last Name</label>
-                            <input type="text" id="last-name" name="last_name" value="<?= e($values['last_name']); ?>" placeholder="Doe" required>
+                            <label for="last-name">Nama Belakang</label>
+                            <input type="text" id="last-name" name="last_name" value="<?= e($values['last_name']); ?>" placeholder="Santoso" required>
                         </div>
                     </div>
 
@@ -101,21 +101,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     </div>
 
                     <div class="form-group">
-                        <label for="phone">Phone</label>
+                        <label for="phone">Nomor Telepon</label>
                         <input type="tel" id="phone" name="phone" value="<?= e($values['phone']); ?>" placeholder="+62" required>
                     </div>
 
                     <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="Create a password" required minlength="8">
-                        <p class="password-hint">Minimum 8 characters.</p>
+                        <label for="password">Kata Sandi</label>
+                        <input type="password" id="password" name="password" placeholder="Buat kata sandi" required minlength="8">
+                        <p class="password-hint">Minimal 8 karakter.</p>
                     </div>
 
-                    <button type="submit" class="btn-submit">Create Account</button>
+                    <button type="submit" class="btn-submit">Buat Akun</button>
                 </form>
 
                 <div class="back-home">
-                    <a href="../Beranda/index.php">Back to Home</a>
+                    <a href="../Beranda/index.php">Kembali ke Beranda</a>
                 </div>
             </div>
         </div>

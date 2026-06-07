@@ -38,7 +38,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Verify OTP - Wijaya Cars</title>
+    <title>Verifikasi OTP - Wijaya Cars</title>
     <link rel="stylesheet" href="tema_lc.css">
 </head>
 <body>
@@ -56,15 +56,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <form method="post">
                     <div class="form-group">
-                        <label for="code">Verification Code</label>
+                        <label for="code">Kode Verifikasi</label>
                         <input type="text" id="code" name="code" inputmode="numeric" maxlength="6" pattern="[0-9]{6}" placeholder="000000" required>
                     </div>
                     <div class="otp-countdown" data-seconds="300">05:00</div>
-                    <button type="submit" class="btn-submit">Verify Account</button>
+                    <button type="submit" class="btn-submit">Verifikasi Akun</button>
                 </form>
 
                 <div class="back-home">
-                    <a href="resend-otp.php">Resend OTP</a>
+                    <a href="resend-otp.php">Kirim Ulang OTP</a>
                 </div>
             </div>
         </div>

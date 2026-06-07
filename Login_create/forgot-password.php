@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Forgot Password - Wijaya Cars</title>
+    <title>Lupa Kata Sandi - Wijaya Cars</title>
     <link rel="stylesheet" href="tema_lc.css">
 </head>
 <body>
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-container glass-panel">
             <div class="brand-text">WIJAYA CARS</div>
             <div class="header-text">
-                <h1>Recover Account</h1>
+                <h1>Pulihkan Akun</h1>
                 <p class="subtitle">Masukkan email untuk menerima OTP reset password.</p>
             </div>
             <?php if ($message): ?><div class="alert"><?= e($message); ?></div><?php endif; ?>
@@ -51,9 +51,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     <label for="email">Email</label>
                     <input type="email" id="email" name="email" value="<?= e($email); ?>" required>
                 </div>
-                <button type="submit" class="btn-submit">Send OTP</button>
+                <button type="submit" class="btn-submit">Kirim OTP</button>
             </form>
-            <div class="back-home"><a href="Login.php">Back to Login</a></div>
+            <div class="back-home"><a href="Login.php">Kembali ke Masuk</a></div>
         </div>
     </div>
     <div class="right-pane"></div>

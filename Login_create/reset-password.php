@@ -37,7 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reset Password - Wijaya Cars</title>
+    <title>Atur Ulang Kata Sandi - Wijaya Cars</title>
     <link rel="stylesheet" href="tema_lc.css">
 </head>
 <body>
@@ -46,21 +46,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="form-container glass-panel">
             <div class="brand-text">WIJAYA CARS</div>
             <div class="header-text">
-                <h1>Reset Password</h1>
+                <h1>Atur Ulang Kata Sandi</h1>
                 <p class="subtitle">Kode reset berlaku 5 menit untuk <?= e($email); ?>.</p>
             </div>
             <?php if ($error): ?><div class="alert error"><?= e($error); ?></div><?php endif; ?>
             <?php if ($notice): ?><div class="alert"><?= e($notice); ?></div><?php endif; ?>
             <form method="post">
                 <div class="form-group">
-                    <label for="code">Reset Code</label>
+                    <label for="code">Kode Reset</label>
                     <input type="text" id="code" name="code" maxlength="6" pattern="[0-9]{6}" required>
                 </div>
                 <div class="form-group">
-                    <label for="password">New Password</label>
+                    <label for="password">Kata Sandi Baru</label>
                     <input type="password" id="password" name="password" minlength="8" required>
                 </div>
-                <button type="submit" class="btn-submit">Update Password</button>
+                <button type="submit" class="btn-submit">Perbarui Kata Sandi</button>
             </form>
         </div>
     </div>

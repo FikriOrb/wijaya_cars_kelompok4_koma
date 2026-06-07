@@ -44,7 +44,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Wijaya Cars</title>
+    <title>Masuk - Wijaya Cars</title>
     <link rel="stylesheet" href="tema_lc.css">
 </head>
 <body>
@@ -54,8 +54,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <div class="brand-text">WIJAYA CARS</div>
 
                 <div class="header-text">
-                    <h1>Welcome Back</h1>
-                    <p class="subtitle">New here? <a href="Create_account.php" class="link">Create an account</a></p>
+                    <h1>Selamat Datang Kembali</h1>
+                    <p class="subtitle">Belum punya akun? <a href="Create_account.php" class="link">Buat akun baru</a></p>
                 </div>
 
                 <?php if ($error): ?>
@@ -64,24 +64,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <form method="post" autocomplete="on">
                     <div class="form-group">
-                        <label for="identifier">Email / Phone</label>
-                        <input type="text" id="identifier" name="identifier" value="<?= e($identifier); ?>" placeholder="Enter your email or phone" required>
+                        <label for="identifier">Email / Telepon</label>
+                        <input type="text" id="identifier" name="identifier" value="<?= e($identifier); ?>" placeholder="Masukkan email atau nomor telepon" required>
                     </div>
 
                     <div class="form-group">
                         <div class="field-header">
-                            <label for="password">Password</label>
-                            <a href="forgot-password.php" class="forgot-pass">Forgot password?</a>
+                            <label for="password">Kata Sandi</label>
+                            <a href="forgot-password.php" class="forgot-pass">Lupa kata sandi?</a>
                         </div>
-                        <input type="password" id="password" name="password" placeholder="Password" required>
+                        <input type="password" id="password" name="password" placeholder="Masukkan kata sandi" required>
                     </div>
 
-                    <button type="submit" class="btn-submit">Log In</button>
-                    <a href="<?= e($googleUrl); ?>" class="btn-google">Continue with Google</a>
+                    <button type="submit" class="btn-submit">Masuk</button>
+                    <a href="<?= e($googleUrl); ?>" class="btn-google">Lanjutkan dengan Google</a>
                 </form>
 
                 <div class="back-home">
-                    <a href="../Beranda/index.php">Back to Home</a>
+                    <a href="../Beranda/index.php">Kembali ke Beranda</a>
                 </div>
             </div>
         </div>
