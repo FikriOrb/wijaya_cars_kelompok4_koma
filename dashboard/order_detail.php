@@ -22,9 +22,10 @@ if (!$order) {
 // Simulated Tracking Statuses based on current status
 $statuses = [
     'Menunggu Verifikasi' => 1,
-    'Diproses' => 2,
-    'Dikirim' => 3,
-    'Selesai' => 4,
+    'Dikonfirmasi' => 2,
+    'Sedang Diproses' => 3,
+    'Dalam Pengiriman' => 4,
+    'Selesai' => 5,
     'Dibatalkan' => -1
 ];
 
@@ -129,17 +130,25 @@ $carImage = $carData ? $carData['file_name'] : 'placeholder.jpg';
                 
                 <li class="timeline-item <?= $currentStep >= 2 ? ($currentStep > 2 ? 'completed' : 'active') : '' ?>">
                     <div class="timeline-content">
+                        <div class="timeline-title">Pesanan Dikonfirmasi</div>
+                        <div class="timeline-desc">Pembayaran dan dokumen legal telah terverifikasi. Pesanan Anda telah resmi masuk ke antrean produksi kami.</div>
+                        <?php if ($currentStep >= 2): ?><div class="timeline-date">Verifikasi Selesai</div><?php endif; ?>
+                    </div>
+                </li>
+
+                <li class="timeline-item <?= $currentStep >= 3 ? ($currentStep > 3 ? 'completed' : 'active') : '' ?>">
+                    <div class="timeline-content">
                         <div class="timeline-title">Pesanan Diproses (Perakitan & Customization)</div>
-                        <div class="timeline-desc">Pembayaran dan dokumen legal telah terverifikasi. Kendaraan Anda saat ini sedang disiapkan, termasuk pemasangan modifikasi warna, velg, dan mesin sesuai spesifikasi pilihan Anda.</div>
-                        <?php if ($currentStep >= 2): ?><div class="timeline-date">Estimasi: 3-5 Hari Kerja</div><?php endif; ?>
+                        <div class="timeline-desc">Kendaraan Anda saat ini sedang disiapkan, termasuk pemasangan modifikasi warna, velg, dan mesin sesuai spesifikasi pilihan Anda.</div>
+                        <?php if ($currentStep >= 3): ?><div class="timeline-date">Estimasi: 3-5 Hari Kerja</div><?php endif; ?>
                     </div>
                 </li>
                 
-                <li class="timeline-item <?= $currentStep >= 3 ? ($currentStep > 3 ? 'completed' : 'active') : '' ?>">
+                <li class="timeline-item <?= $currentStep >= 4 ? ($currentStep > 4 ? 'completed' : 'active') : '' ?>">
                     <div class="timeline-content">
                         <div class="timeline-title">Sedang Dikirim</div>
                         <div class="timeline-desc">Kendaraan telah lulus inspeksi kualitas (Quality Control) dan saat ini sedang dalam perjalanan menuju alamat pengiriman Anda menggunakan Towing VIP kami.</div>
-                        <?php if ($currentStep >= 3): ?>
+                        <?php if ($currentStep >= 4): ?>
                             <div style="background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.2); padding: 12px; border-radius: 6px; margin-top: 10px; color: #ccc;">
                                 <span style="display: block; margin-bottom: 5px; font-weight: bold; color: #fff; letter-spacing: 0.5px;">📍 ALAMAT PENGIRIMAN:</span>
                                 <?= nl2br(e($order['alamat_pengiriman'])); ?>
@@ -148,7 +157,7 @@ $carImage = $carData ? $carData['file_name'] : 'placeholder.jpg';
                     </div>
                 </li>
                 
-                <li class="timeline-item <?= $currentStep >= 4 ? 'completed active' : '' ?>">
+                <li class="timeline-item <?= $currentStep >= 5 ? 'completed active' : '' ?>">
                     <div class="timeline-content">
                         <div class="timeline-title">Pesanan Selesai</div>
                         <div class="timeline-desc">Kendaraan beserta dokumen legal (STNK & BPKB sementara) telah diserahterimakan kepada Anda. Selamat menikmati perjalanan mewah Anda bersama Wijaya Cars!</div>

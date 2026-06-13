@@ -85,9 +85,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_order'])) {
         move_uploaded_file($tmpName, __DIR__ . '/../uploads/' . $buktiName);
     }
 
+    $metodePembayaran = (string) ($_POST['tipe_pembayaran'] ?? 'Lunas');
+
     $stmt = $pdo->prepare('
-        INSERT INTO orders (user_email, mobil, warna, velg, mesin, total_harga, status, bukti_pembayaran, alamat_pengiriman, koordinat_pengiriman)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        INSERT INTO orders (user_email, mobil, warna, velg, mesin, total_harga, status, bukti_pembayaran, alamat_pengiriman, koordinat_pengiriman, metode_pembayaran)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     ');
     $stmt->execute([
         $user['email'],
@@ -99,7 +101,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['confirm_order'])) {
         'Menunggu Verifikasi',
         $buktiName,
         $user['alamat'] ?? '',
-        $user['koordinat'] ?? ''
+        $user['koordinat'] ?? '',
+        $metodePembayaran
     ]);
     $orderId = (int) $pdo->lastInsertId();
     unset($_SESSION['checkout']);
@@ -173,6 +176,12 @@ if (!$checkout) {
                 <option>Mandiri Bill</option>
                 <option>BNI Virtual Account</option>
                 <option>BRI Virtual Account</option>
+              </select>
+              <label style="margin-top: 15px;">Tipe Transaksi</label>
+              <select name="tipe_pembayaran" class="bank-select" style="margin-bottom: 15px;">
+                <option value="Lunas">Lunas (Full Payment)</option>
+                <option value="DP">DP 30% (Down Payment)</option>
+                <option value="Cicilan">Cicilan / Kredit</option>
               </select>
               <label>Virtual Account Number</label>
               <div class="input-icon">

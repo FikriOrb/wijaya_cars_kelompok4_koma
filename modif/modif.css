@@ -413,3 +413,39 @@ body {
     min-width: 0;
   }
 }
+
+/* ===== 3D VIEWER STYLES ===== */
+#car3d-container {
+  width: 100%;
+  height: 400px;
+  position: relative;
+  overflow: hidden;
+  cursor: grab;
+  /* Dihapus border dan background agar menyatu dengan gelapnya website */
+  border-radius: 12px;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#car3d-container:active {
+  cursor: grabbing;
+}
+
+#loading3d {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  letter-spacing: 2px;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 0.6; }
+  50% { opacity: 1; }
+  100% { opacity: 0.6; }
+}

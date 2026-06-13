@@ -48,7 +48,9 @@ body {
 
 .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* Diubah menjadi ukuran fix 380px per kartu (bukan fraction / flex) */
+    grid-template-columns: repeat(auto-fill, 380px);
+    justify-content: center;
     gap: 30px;
 }
 
@@ -90,7 +92,6 @@ body {
 .card2:hover .card2-image-box img {
     transform: scale(1.05);
 }
-
 .card2-info {
     text-align: left;
     flex-grow: 1;

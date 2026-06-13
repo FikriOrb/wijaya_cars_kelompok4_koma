@@ -134,7 +134,8 @@ function ensure_schema(PDO $pdo): void
         "ALTER TABLE users ADD COLUMN koordinat VARCHAR(100) NULL",
         "ALTER TABLE orders ADD COLUMN alamat_pengiriman TEXT NULL",
         "ALTER TABLE orders ADD COLUMN koordinat_pengiriman VARCHAR(100) NULL",
-        "ALTER TABLE users ADD COLUMN ktp_image VARCHAR(255) NULL"
+        "ALTER TABLE users ADD COLUMN ktp_image VARCHAR(255) NULL",
+        "ALTER TABLE orders ADD COLUMN metode_pembayaran VARCHAR(50) NULL"
     ];
 
     foreach ($alterQueries as $query) {
