@@ -2,7 +2,7 @@
 
 **Wijaya Cars** adalah platform *e-commerce* dan *showroom digital* premium yang dirancang khusus untuk memfasilitasi jual beli mobil mewah dan *sport* (Supercar, SUV, Luxury Cars). Dibangun sebagai proyek unggulan oleh **Kelompok 4**, platform ini menghadirkan pengalaman berbelanja interaktif kelas dunia langsung dari layar Anda.
 
-🌐 **Kunjungi Live Website:** [Masukkan Link InfinityFree Anda Di Sini]
+🌐 **Kunjungi Live Website:** https://wijayacars.infinityfreeapp.com/Beranda/index.php
 
 ---
 
@@ -54,10 +54,10 @@ Pantau perjalanan mobil impian Anda dari pabrik hingga ke garasi Anda:
 
 ### 7. Panel Manajemen Admin (Admin Panel)
 (Khusus Staf Wijaya Cars)
-- **Akses:** Buka browser dan arahkan ke `[LINK WEBSITE ANDA]/admin_panel`
+- **Akses:** Buka browser dan arahkan ke https://wijayacars.infinityfreeapp.com/admin_panel/login.php
 - **Kredensial Default:** 
-  - **Username:** `admin`
-  - **Password:** `admin123`
+  - **Username:** admin
+  - **Password:** admin123
 - Fitur ini digunakan untuk meninjau pesanan masuk, memverifikasi KTP pelanggan, memvalidasi bukti pembayaran, dan memperbarui status pelacakan (*order tracking*) secara terpusat.
 
 ---
